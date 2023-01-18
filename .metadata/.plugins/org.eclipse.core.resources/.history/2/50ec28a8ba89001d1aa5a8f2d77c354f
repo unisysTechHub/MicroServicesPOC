@@ -1,0 +1,5 @@
+package com.poc.banking.UserService.entities;
+
+public class UserAccounts {
+
+}

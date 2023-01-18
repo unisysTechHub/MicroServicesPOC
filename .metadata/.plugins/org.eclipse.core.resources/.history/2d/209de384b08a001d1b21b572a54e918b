@@ -1,0 +1,5 @@
+package com.poc.banking.AccountService.entity;
+
+public class Account {
+
+}

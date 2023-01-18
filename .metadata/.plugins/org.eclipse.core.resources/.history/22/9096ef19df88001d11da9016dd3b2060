@@ -1,0 +1,13 @@
+package com.poc.banking.UserService;
+
+import org.springframework.data.jpa.domain.Specification;
+
+public class UserDetailsSpecification {
+	 
+//	public static Specification<UserDetails> isLongTermCustomer() {
+//	    return (root, query, builder) -> {
+//	     // LocalDate date = LocalDate.now().minusYears(2);
+//	      return builder.lessThan(root.get(UserDetail_.Id), date);
+//	    };
+//	  }
+}

@@ -1,0 +1,68 @@
+package com.poc.banking.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.poc.banking.UserService.response.LoginResponse;
+import com.poc.banking.UserService.response.NewUser;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class UserManagementServiceImpl implements  UserManagementService {
+	
+	@Autowired
+	UserRepository userRepo;
+
+	@Autowired
+	UserDetailsFluentQueryAPI queryAPI;
+	@Transactional
+	@Override
+	public NewUser addUser(UserDetails userDetails) {
+		NewUser newUser = new  NewUser();
+
+		try {
+			System.out.println("@Rameseh " + userDetails.userId);
+			//userDetails.setAccountList(null);
+			userRepo.save(userDetails);
+			newUser.setResponseCode("200");
+			newUser.setMessage("Signup sucessfull");
+			newUser.setUserDetails(userDetails);
+
+		}
+		catch(Exception e) {
+			newUser.setResponseCode("400");
+			newUser.setMessage("Signup unsucessfull" + e.getLocalizedMessage());
+			
+		}
+		
+		return newUser;
+		
+	}
+
+	@Override
+	public LoginResponse isValidCredintails(UserDetails userDetails) {	
+		LoginResponse loginResponse = new LoginResponse();
+		try {
+			System.out.println("@Rameseh " + userDetails.userId);
+			boolean validUser = queryAPI.isValidCredentials(userDetails);
+			loginResponse.setUserId(userDetails.userId);
+			 if (validUser == true) {
+				 loginResponse.setResponseCode("200");
+					loginResponse.setMessage("Login sucessfull");
+			 }
+			 else {
+				 loginResponse.setResponseCode("304");
+					loginResponse.setMessage("invalid combination of userid and pasword");
+			 }
+			 
+			
+		}
+		catch(Exception e) {
+			loginResponse.setResponseCode("305");
+			loginResponse.setMessage("Login unsucessfull" + e.getLocalizedMessage());
+		}
+		return loginResponse;
+	}
+
+}

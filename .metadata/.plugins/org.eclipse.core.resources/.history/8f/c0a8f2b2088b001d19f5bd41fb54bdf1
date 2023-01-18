@@ -1,0 +1,5 @@
+package com.poc.banking.AccountService.url;
+
+public interface URL {
+
+}

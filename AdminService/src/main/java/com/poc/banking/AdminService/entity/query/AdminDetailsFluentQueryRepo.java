@@ -1,0 +1,27 @@
+package com.poc.banking.AdminService.entity.query;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.stereotype.Repository;
+
+import com.poc.banking.AdminService.entity.AdminDetails;
+import com.poc.banking.AdminService.entity.repository.AdminRepository;
+import com.poc.banking.AdminService.entity.spec.AdminDetailsSpec;
+
+@Repository
+public class AdminDetailsFluentQueryRepo {
+	
+	@Autowired
+	AdminRepository adminRepo;
+	
+	public boolean isValidCredentials(AdminDetails admin)  {
+		
+		return	adminRepo.findBy(AdminDetailsSpec.isValidUser(admin), 
+					             q  -> this.query(q).exists());
+		  
+	}
+
+	FluentQuery.FetchableFluentQuery<AdminDetails> query(FluentQuery.FetchableFluentQuery<AdminDetails> q) {
+		return new EntityFetchFluentQuery<AdminDetails>(q);
+	}
+}

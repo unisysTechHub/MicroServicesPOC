@@ -1,0 +1,14 @@
+package com.poc.banking.UserService.response;
+
+public class ValidateUserResponse extends BaseResponse {
+	boolean isValidUser;
+
+	public boolean isValidUser() {
+		return isValidUser;
+	}
+
+	public void setValidUser(boolean isValidUser) {
+		this.isValidUser = isValidUser;
+	}
+	
+}

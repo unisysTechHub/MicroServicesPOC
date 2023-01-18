@@ -1,0 +1,29 @@
+package com.poc.banking.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+import org.springframework.stereotype.Repository;
+import com.poc.banking.UserService.UserDetalisFluentQuery;
+import com.poc.banking.UserService.response.LoginResponse;
+
+@Repository
+public class UserDetailsFluentQueryAPI {
+
+	@Autowired
+	UserRepository userRepo;
+	
+	LoginResponse isValidCredentials(UserDetails userDetails) {
+		
+		return 	(LoginResponse) userRepo.findBy(UserDetailsSpecification.isValiduser(userDetails), 
+				q -> {  UserDetalisFluentQuery query = (UserDetalisFluentQuery) this.query(q); 
+					return query.as(LoginResponse.class);}
+				);
+	}
+	 FluentQuery.FetchableFluentQuery<UserDetails>  query( FluentQuery.FetchableFluentQuery<UserDetails>  q) {
+		return new UserDetalisFluentQuery(q) ;
+	}
+	
+	
+}

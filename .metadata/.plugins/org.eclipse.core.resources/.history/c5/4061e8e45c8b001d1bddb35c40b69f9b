@@ -1,0 +1,28 @@
+package com.poc.banking.AccountService.response;
+
+import java.io.Serializable;
+
+import com.poc.banking.AccountService.entity.UserDetails;
+
+public class ValidateUserResponse extends BaseResponse implements Serializable {
+	boolean isValidUser;
+	UserDetails userDetails;
+	public boolean isValidUser() {
+		return isValidUser;
+	}
+
+	public void setValidUser(boolean isValidUser) {
+		this.isValidUser = isValidUser;
+	}
+
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
+	}
+	
+	
+
+}

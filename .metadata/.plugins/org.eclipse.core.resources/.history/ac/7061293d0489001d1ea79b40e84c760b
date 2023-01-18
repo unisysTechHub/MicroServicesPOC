@@ -1,0 +1,10 @@
+package com.poc.banking.UserService;
+
+import com.poc.banking.UserService.response.NewUser;
+
+public interface UserManagementService {
+	
+	NewUser addUser(UserDetails userDetails);
+	boolean isValidCredintails(UserDetails userDetails);
+
+}

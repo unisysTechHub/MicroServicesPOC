@@ -1,0 +1,10 @@
+package com.poc.banking.AdminService.resttemplate;
+
+import org.springframework.web.client.RestTemplate;
+
+public class ResttemplateBuilder extends RestTemplate {
+	
+	ResttemplateBuilder url(String url) {
+		
+	}
+}

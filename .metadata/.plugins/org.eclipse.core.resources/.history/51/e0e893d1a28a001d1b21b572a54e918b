@@ -1,0 +1,5 @@
+package com.poc.banking.AdminService.resttemplate;
+
+public class ResttemplateBuilder {
+
+}

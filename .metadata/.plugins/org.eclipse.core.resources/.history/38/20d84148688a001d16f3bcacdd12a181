@@ -1,0 +1,5 @@
+package com.poc.banking.AdminService.entity.query;
+
+public class AdminDetailsFluentQueryRepo {
+
+}

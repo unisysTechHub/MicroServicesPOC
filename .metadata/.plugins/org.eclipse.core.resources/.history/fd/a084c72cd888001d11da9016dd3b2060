@@ -1,0 +1,8 @@
+package com.poc.banking.UserService;
+
+import org.springframework.data.jpa.domain.Specification;
+
+public class UserDetailsSpecification {
+	 
+
+}

@@ -1,0 +1,16 @@
+package com.poc.banking.UserService;
+
+import org.springframework.data.jpa.domain.Specification;
+
+import jakarta.persistence.criteria.CriteriaQuery;
+
+public class UserDetailsSpecification {
+	 
+	public static Specification<UserDetails> isValiduser( UserDetails user) {
+	    return (root, query, builder) -> {
+	     // LocalDate date = LocalDate.now().minusYears(2);
+	   // CriteriaQuery<UserDetails> q =	builder.createQuery(UserDetails.class);
+	      return builder.and(builder.equal(root.get(UserDetails_.USER_ID), user.userId), builder.equal(root.get(UserDetails_.USER_ID), user.userId));
+	    };
+	  }
+}

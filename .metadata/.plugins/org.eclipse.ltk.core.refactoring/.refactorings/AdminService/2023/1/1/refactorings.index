@@ -1,0 +1,12 @@
+1672637340457	Rename type 'MangerUserService'
+1672637431777	Rename type 'AdminUser'
+1672637667786	Rename type 'UserDetails'
+1672638238019	Rename type 'UserDetailsFluentQueryAPI'
+1672639087968	Rename type 'ManagerUserService'
+1672639101200	Rename type 'MangerUserServiceImpl'
+1672639176953	Rename type 'AdminDetailsFluentQueryAPI'
+1672639456991	Rename type 'BaseReponse'
+1672639661542	Rename type 'SingupResponse'
+1672648020589	Rename package 'com.poc.banking.AdminServices.service'
+1672666742400	Delete element
+1672813582834	Rename package 'com.poc.banking.AdminService.ul'

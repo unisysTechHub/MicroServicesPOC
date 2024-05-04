@@ -1,5 +1,0 @@
-package com.poc.banking.AdminService.Response;
-
-public class SingupResponse {
-
-}

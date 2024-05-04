@@ -1,5 +1,0 @@
-package com.poc.banking.AdminService.entity.repository;
-
-public interface AdminRepository {
-
-}

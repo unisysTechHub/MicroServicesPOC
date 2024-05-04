@@ -1,6 +1,0 @@
-package com.poc.banking.UserService;
-
-public class UserRepository  extends CrudRepository<UserDetails, Long>
-{
-
-}

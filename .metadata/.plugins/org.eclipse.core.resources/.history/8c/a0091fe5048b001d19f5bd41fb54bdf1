@@ -1,5 +1,0 @@
-package com.poc.banking.AccountService.service;
-
-public interface ManageAccountService {
-
-}

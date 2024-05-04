@@ -1,8 +1,0 @@
-package com.poc.banking.AdminServices.service;
-
-import com.poc.banking.AdminService.entity.AdminDetails;
-
-public interface ManagerUserService {
-       boolean isValidCredenitals(AdminDetails admin);
-       AdminDetails signup(AdminDetails admin);
-}

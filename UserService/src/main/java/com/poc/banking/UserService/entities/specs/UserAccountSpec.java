@@ -2,8 +2,7 @@ package com.poc.banking.UserService.entities.specs;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.poc.banking.UserService.UserDetails;
-import com.poc.banking.UserService.UserDetails_;
+import com.poc.banking.UserService.entity.UserDetails;
 
 import jakarta.persistence.Entity;
 

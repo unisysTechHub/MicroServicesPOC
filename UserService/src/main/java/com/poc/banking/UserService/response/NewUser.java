@@ -1,6 +1,6 @@
 package com.poc.banking.UserService.response;
 
-import com.poc.banking.UserService.UserDetails;
+import com.poc.banking.UserService.entity.UserDetails;
 
 public class NewUser extends BaseResponse {
 	

@@ -2,7 +2,7 @@ package com.poc.banking.UserService.response;
 
 import java.io.Serializable;
 
-import com.poc.banking.UserService.UserDetails;
+import com.poc.banking.UserService.entity.UserDetails;
 
 public class ValidateUserResponse extends BaseResponse {
 	boolean isValidUser;

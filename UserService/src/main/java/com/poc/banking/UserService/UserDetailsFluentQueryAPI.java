@@ -8,7 +8,8 @@ import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
 import org.springframework.stereotype.Repository;
 
-import com.poc.banking.UserService.entities.Account;
+import com.poc.banking.UserService.entity.UserDetails;
+import com.poc.banking.UserService.repo.UserRepository;
 import com.poc.banking.UserService.response.LoginResponse;
 
 @Repository
@@ -17,7 +18,7 @@ public class UserDetailsFluentQueryAPI {
 	@Autowired
 	UserRepository userRepo;
 	
-	boolean isValidCredentials(UserDetails userDetails) {
+	public boolean isValidCredentials(UserDetails userDetails) {
 		
 		return 	 userRepo.findBy(UserDetailsSpecification.isValidCredentials(userDetails), 
 				q -> { 
@@ -26,7 +27,7 @@ public class UserDetailsFluentQueryAPI {
 					return (this.query(q).exists() ); }
 				);
 	}
-   UserDetails isValidUser(UserDetails userDetails) {
+   public UserDetails isValidUser(UserDetails userDetails) {
 		
 		return userRepo.findBy(UserDetailsSpecification.isValidUser(userDetails), 
 				                                  q -> {
@@ -35,7 +36,7 @@ public class UserDetailsFluentQueryAPI {
 				                                	  return this.query(q).firstValue();});
 	}
    
-   UserDetails fetchUserDetilas(UserDetails userDetails) {
+   public UserDetails fetchUserDetilas(UserDetails userDetails) {
 		
 		return userRepo.findBy(UserDetailsSpecification.isValidUser(userDetails), 
 				                                  q -> {

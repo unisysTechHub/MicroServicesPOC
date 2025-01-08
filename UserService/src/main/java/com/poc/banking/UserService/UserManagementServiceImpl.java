@@ -1,11 +1,18 @@
 package com.poc.banking.UserService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import com.poc.banking.UserService.entities.Account;
+import com.poc.banking.UserService.entity.Account;
+import com.poc.banking.UserService.entity.UserDetails;
+import com.poc.banking.UserService.repo.UserRepository;
 import com.poc.banking.UserService.response.AccountList;
 import com.poc.banking.UserService.response.LoginResponse;
 import com.poc.banking.UserService.response.NewUser;
@@ -27,7 +34,7 @@ public class UserManagementServiceImpl implements  UserManagementService {
 		NewUser newUser = new  NewUser();
 
 		try {
-			System.out.println("@Rameseh " + userDetails.userId);
+			System.out.println("@Rameseh " + userDetails.getUserId());
 			//userDetails.setAccountList(null);
 			userRepo.save(userDetails);
 			newUser.setResponseCode("200");
@@ -49,9 +56,9 @@ public class UserManagementServiceImpl implements  UserManagementService {
 	public LoginResponse isValidCredintails(UserDetails userDetails) {	
 		LoginResponse loginResponse = new LoginResponse();
 		try {
-			System.out.println("@Rameseh " + userDetails.userId);
+			System.out.println("@Rameseh " + userDetails.getUserId());
 			boolean validUser = queryAPI.isValidCredentials(userDetails);
-			loginResponse.setUserId(userDetails.userId);
+			loginResponse.setUserId(userDetails.getUserId());
 			 if (validUser == true) {
 				 loginResponse.setResponseCode("200");
 					loginResponse.setMessage("Login sucessfull");
@@ -73,9 +80,10 @@ public class UserManagementServiceImpl implements  UserManagementService {
 	
 	@Override
 	public ValidateUserResponse isValidUser(UserDetails userDetails) {	
+		System.out.println("@Rameseh isValidUser entry " + userDetails.getUserId());
 		ValidateUserResponse validateUserResponse = new ValidateUserResponse();
 		try {
-			System.out.println("@Rameseh " + userDetails.userId);
+			System.out.println("@Rameseh is valid user " + userDetails.getUserId());
 			UserDetails user = queryAPI.isValidUser(userDetails);
 			 if (user != null) {
 				 validateUserResponse.setResponseCode("200");
@@ -105,8 +113,20 @@ public class UserManagementServiceImpl implements  UserManagementService {
 	@Override
 	public AccountList accountList(UserDetails userDetails) {	
 		AccountList response = new AccountList();
+		int[] intarray = new int[10];
+		ArrayList<Integer> arrayList = new ArrayList<Integer>(10);
+		LinkedHashSet<Integer> set = new LinkedHashSet<Integer>();
+		HashMap<Integer,String> map = new HashMap<Integer, String>();
+		
+		for(int i = 0;i< 4;i++){
+			Integer integer = 10;
+			System.out.print(integer.intValue());
+			int j = i++;
+			System.out.println(i +"");;
+		}
+				
 		try {
-			System.out.println("@Rameseh " + userDetails.userId);
+			System.out.println("@Rameseh account list " + userDetails.getUserId());
 			List<Account> accountsList = queryAPI.fetchUserDetilas(userDetails).getAccountList();
 			 if (accountsList != null) {
 				 response.setResponseCode("200");
@@ -127,5 +147,10 @@ public class UserManagementServiceImpl implements  UserManagementService {
 		}
 		return response;
 	}
+//	 @KafkaListener(topics = "user-events", groupId = "group_id")
+	    public void consume(String message) {
+	        System.out.println("@Ramesh Consumed message: " + message);
+	        // Process the message
+	    }
 	
 }

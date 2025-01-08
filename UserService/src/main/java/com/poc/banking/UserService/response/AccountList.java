@@ -2,7 +2,8 @@ package com.poc.banking.UserService.response;
 
 import java.util.List;
 
-import com.poc.banking.UserService.entities.Account;
+import com.poc.banking.UserService.entity.Account;
+
 
 public class AccountList extends BaseResponse {
 	

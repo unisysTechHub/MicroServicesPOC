@@ -5,6 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.poc.banking.AccountService.entity.Account;
 
-public interface AccountRespository extends CrudRepository<Account,Long> , JpaSpecificationExecutor<Account>  {
-
-}
+public interface AccountRespository extends  CrudRepository<Account,Long> , JpaSpecificationExecutor<Account>  {}

@@ -1,6 +1,7 @@
 package com.poc.banking.AdminService.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.poc.banking.AdminService.Response.BaseResponse;
@@ -12,12 +13,15 @@ import com.poc.banking.AdminService.entity.repository.AdminRepository;
 
 @Service
 public class ManageUserServiceImpl implements ManageUserService {
+    private static final String TOPIC = "user-events";
 
 	@Autowired
 	AdminRepository adminRepo;
 	
 	@Autowired
 	AdminDetailsFluentQueryRepo queryRepo;
+//	 @Autowired
+//	    private KafkaTemplate<String, String> kafkaTemplate;
 	
 	@Override
 	public SignupResponse signup(AdminDetails admin) {
@@ -68,4 +72,7 @@ public class ManageUserServiceImpl implements ManageUserService {
 			baseResponse.setResponseCode(responseCode);
 			
 		}
+	  public void sendMessage(String message) {
+	      //  kafkaTemplate.send(TOPIC, message);
+	    }
 }

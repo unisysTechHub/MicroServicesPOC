@@ -7,4 +7,5 @@ import com.poc.banking.AdminService.entity.AdminDetails;
 public interface ManageUserService {
        LoginResponse login(AdminDetails admin);
        SignupResponse signup(AdminDetails admin);
+       public void sendMessage(String message);
 }

@@ -17,62 +17,65 @@ import com.poc.banking.AdminService.Response.SignupResponse;
 import com.poc.banking.AdminService.entity.AdminDetails;
 import com.poc.banking.AdminService.service.ManageUserService;
 
-
-
 @RestController
 @RequestMapping(value = "/api/admin")
 public class MainController {
 
 	@Autowired
 	ManageUserService manageUserService;
-	
-	@RequestMapping(value = "/signup", method = RequestMethod.POST,consumes = "application/json" )
+
+	@RequestMapping(value = "/signup", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	SignupResponse addUser(@RequestBody AdminDetails admin) {
 		System.out.println("@Rameseh controller " + admin.getUserId());
+		manageUserService.sendMessage("communciation from admin service");
 		return manageUserService.signup(admin);
-		
+
 	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.POST , consumes = "application/json")
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	LoginResponse login(@RequestBody AdminDetails admin) {
 		System.out.println("@Rameseh controller " + admin.getUserId());
-		//customer();
+		// customer();
 		return manageUserService.login(admin);
-		
 	}
-	
-	@RequestMapping(value = "/addAccount", method = RequestMethod.POST , consumes = "application/json")
+
+	@RequestMapping(value = "/addAccount", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	LoginResponse addAccount(@RequestBody AdminDetails admin) {
+	BaseResponse addAccount(@RequestBody AdminDetails admin) {
 		System.out.println("@Rameseh controller " + admin.getUserId());
-		
+
 		// on successful Admin Login with credentials
-		// validate userId of the  account to be added - RestTemplate UserService - validateUser API
-		// On successful validate user API - call RestTemplate AccountService - add account API
-		//customer();
-		return manageUserService.login(admin);
-		
+		// validate userId of the account to be added - RestTemplate UserService -
+		// validateUser API
+		// On successful validate user API - call RestTemplate AccountService - add
+		// account API
+		// customer();
+		return customer();
+
 	}
-	
-	
-	void customer() {
-		
-		RestTemplate restTemplate	=  new RestTemplate();
+
+	BaseResponse customer() {
+
+		RestTemplate restTemplate = new RestTemplate();
 		try {
-			URI uri =  new URI("http://localhost:8082/api/login");
-			AdminDetails user =  new AdminDetails();
+			URI uri = new URI("http://user-service:8082/api/login");
+			AdminDetails user = new AdminDetails();
 			user.setUserId("Ramesh12");
 			user.setPassword("Ramesh12");
-		BaseResponse response =	restTemplate.postForObject(uri,user , BaseResponse.class);
-		System.out.println("@Ramesh" + response.getMessage());
-
+			BaseResponse response = restTemplate.postForObject(uri, user, BaseResponse.class);
+			System.out.println("@Ramesh" + response.getMessage());
+			return response;
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			BaseResponse response = new BaseResponse();
+			response.setMessage("Resfulcallto user service error");
+
+			return response;
+
 		}
 	}
-	
-	
+
 }

@@ -1,9 +1,7 @@
 package com.poc.banking.AccountService.entity;
-
-
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 public class Account {
 	@Id
 	@Column(name = "ID")
-	int accountId;
+	Long accountId;
 	@JsonBackReference
 	@JoinColumn(name = "USERDETAILS_ID")
 	@ManyToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
@@ -26,21 +24,25 @@ public class Account {
 	@Column(name = "Account_Type")
 	String accountType;
 	
+	@Column(name = "Account_Number")
+	long accountNumber;
+	
+	@Column(name = "Transaction_Status")
+	String transactoinStatus;
+	
 	@Column(name = "Available_BAL")
-	double  availableBalance;
+	BigDecimal  availableBalance;
 	
 	@Column(name = "Current_BAL")
 	double currrentBaalance;
 
-	public int getAccountId() {
+	public Long getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(int accountId) {
+	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
 	}
-
-	
 
 	public UserDetails getUserDetails() {
 		return userDetails;
@@ -58,11 +60,13 @@ public class Account {
 		this.accountType = accountType;
 	}
 
-	public double getAvailableBalance() {
+	
+
+	public BigDecimal getAvailableBalance() {
 		return availableBalance;
 	}
 
-	public void setAvailableBalance(double availableBalance) {
+	public void setAvailableBalance(BigDecimal availableBalance) {
 		this.availableBalance = availableBalance;
 	}
 
@@ -72,6 +76,22 @@ public class Account {
 
 	public void setCurrrentBaalance(double currrentBaalance) {
 		this.currrentBaalance = currrentBaalance;
+	}
+
+	public long getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(long accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public String getTransactoinStatus() {
+		return transactoinStatus;
+	}
+
+	public void setTransactoinStatus(String transactoinStatus) {
+		this.transactoinStatus = transactoinStatus;
 	}
 	
 	

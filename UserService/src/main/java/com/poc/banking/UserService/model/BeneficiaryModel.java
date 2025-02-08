@@ -1,26 +1,30 @@
 package com.poc.banking.UserService.model;
 
+import com.poc.banking.UserService.transfer.validation.group.Domestic;
+import com.poc.banking.UserService.transfer.validation.group.International;
+
 import jakarta.validation.constraints.NotNull;
 
 public class BeneficiaryModel {
-	@NotNull(message = "Userid must not be null")
+	@NotNull(message = "Userid must not be null" )
 	private String userId;
 	//(External account number)
-	@NotNull(message = "Account number must not be null")
+	@NotNull(message = "Account number must not be null",groups = {Domestic.class})
 	private Long	AccountNumber ;
-	@NotNull(message = "Bankname must not be null")
+	@NotNull(message = "Bankname must not be null",groups = {Domestic.class})
 	private	String	BankName;
-	@NotNull(message = "Beneficiaryname must not be null")
+	@NotNull(message = "Beneficiaryname must not be null",groups = {Domestic.class})
 	private String	BeneficiaryName;
-	@NotNull(message = "Account  type must not be null")
+	@NotNull(message = "Account  type must not be null",groups = {Domestic.class})
 	private String  accountType;
-	@NotNull(message = "Transaction type must not be null")
+	@NotNull(message = "Transaction type must not be null",groups = {Domestic.class})
 	private String  transferType;
 	private String  transferTypeACH;
 	private String	PhoneNumber;
 	private String	Email;
 	private String country = "US";
 	private String  currency = "usd";
+	@NotNull(message = "Transaction type must not be null",groups = {International.class})
 	private String iban;
 	private String swiftBicCode;
 	public String getUserId() {

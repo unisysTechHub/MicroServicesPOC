@@ -30,6 +30,7 @@ public class Beneficiaries {
 	private String  accountType;
 	@Column
 	private String  transferType;
+	//this parameter is not required / can be deleted
 	@Column
 	private String  transferTypeACH;
     @Column

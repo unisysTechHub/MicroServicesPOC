@@ -18,11 +18,11 @@ import jakarta.validation.ValidatorFactory;
 @Component
 public class BeneficiariesValidtionService {
 	 private final Log log = LogFactory.getLog(getClass());
-	public void validateBeneficiary(Beneficiary beneficiary) throws IllegalArgumentException  {
+	public void validateBeneficiary(Beneficiary beneficiary,Class<?>... groups) throws IllegalArgumentException  {
 		log.debug(getClass().getSimpleName() + " validateBeneficiary");
 		 ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		    Validator validator = factory.getValidator();
-		    Set<ConstraintViolation<Beneficiary>> violations = validator.validate(beneficiary);
+		    Set<ConstraintViolation<Beneficiary>> violations = validator.validate(beneficiary,groups);
 
 		    if (!violations.isEmpty()) {
 		        StringBuilder errorMessage = new StringBuilder();

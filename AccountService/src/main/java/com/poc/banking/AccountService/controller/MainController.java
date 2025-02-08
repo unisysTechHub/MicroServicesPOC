@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.poc.banking.AccountService.entity.Account;
 import com.poc.banking.AccountService.entity.UserDetails;
+import com.poc.banking.AccountService.model.Transaction;
 import com.poc.banking.AccountService.response.AddAccount;
 import com.poc.banking.AccountService.response.BaseResponse;
 import com.poc.banking.AccountService.response.ValidateUserResponse;
@@ -44,6 +45,35 @@ public class MainController {
 			addAccount.setMessage("User id is not exists");
 		}
 		return addAccount;
+	}
+	
+	@RequestMapping(value= "/prepare", method = RequestMethod.POST,consumes = "application/json")
+	@ResponseBody
+	String prepare(@RequestBody Transaction transaction) {
+		
+		 //update account with PREPARED or FAILED 
+		//PREPARED - retrun PREAPRED
+		
+		//on error return Error message
+		
+		return manageAccountService.prepare(transaction);
+	}
+	
+	@RequestMapping(value= "/commit", method = RequestMethod.POST,consumes = "application/json")
+	@ResponseBody
+	String commit(@RequestBody Transaction transaction) {
+		 //update account table - deduct balance - 
+		// on successs - send SuCCESS
+		//on error - send ERROR
+		return manageAccountService.commit(transaction);
+	}
+	@RequestMapping(value= "/rollback", method = RequestMethod.POST,consumes = "application/json")
+	@ResponseBody
+	String rollback(@RequestBody Transaction transaction) {
+		 // update transctionAccount status as OPEN
+		  // on Success - send ROLLBsUCCESS
+		// Rerty policy later
+		return manageAccountService.rollback(transaction);
 	}
 	
 	private ValidateUserResponse isValidUser(UserDetails user)  {

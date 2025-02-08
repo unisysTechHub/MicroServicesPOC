@@ -19,6 +19,7 @@ import com.poc.banking.UserService.response.BaseResponse;
 import com.poc.banking.UserService.response.BeneficiaryListResponse;
 import com.poc.banking.UserService.transfer.response.BeneficiaryModel;
 import com.poc.banking.UserService.transfer.response.BeneficiaryResponseModel;
+import com.poc.banking.UserService.transfer.validation.group.Domestic;
 
 import io.micrometer.core.ipc.http.HttpSender.Response;
 
@@ -38,8 +39,19 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
     public BeneficiaryResponseModel addBeneficiary( Beneficiary beneficiary) {
     	System.out.println("@Ramesh" + beneficiary.getBankName());
     	try {
-    	
-    		validationService.validateBeneficiary(beneficiary);
+    		switch (beneficiary.getTransferType()) {
+            case TransactionConstants.TransactionType.INTRA:
+            case TransactionConstants.TransactionType.INTERNAL:
+            case TransactionConstants.TransactionType.DOMESTIC_ACH:
+            case TransactionConstants.TransactionType.DOMESTIC_WIRE:
+            case TransactionConstants.TransactionType.INTERNATIONAL:
+                
+            	validationService.validateBeneficiary(beneficiary,Domestic.class);    
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported transfer type: " + beneficiary.getTransferType());
+    		}
+    		
     	}
     	catch(IllegalArgumentException e) {
     		
@@ -49,7 +61,7 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
     	
     	// Fetch the UserDetails by ID
     	
-		UserDetails userDetails = userDetailsqueryAPI.isValidUser(new UserDetails(beneficiary.getUserId()));
+		UserDetails userDetails = userDetailsqueryAPI.isValidUser(new UserDetails("user123"));
                 
         // Create a new Beneficiary
         

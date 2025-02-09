@@ -1,4 +1,5 @@
-package com.poc.banking.UserService.entity;
+package com.example.demo.entity;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -11,8 +12,8 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-@Entity
 
+@Entity
 @Table(name = "Beneficiaries",indexes = @Index(name="index_acct_no",columnList = "AccountNumber"))
 public class Beneficiaries {
 	@Id 
@@ -23,6 +24,10 @@ public class Beneficiaries {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false,referencedColumnName="userId")
     private UserDetails userDetails;
+	
+//	@Column(name= "beneficiary_id")
+//	String beneficiaryId;
+//	
 	//(External account number)
 	@Column
 	Long	AccountNumber ;
@@ -52,12 +57,12 @@ public class Beneficiaries {
 	
 	
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+//	public Long getBeneficiaryID() {
+//		return beneficiaryID;
+//	}
+//	public void setBeneficiaryID(Long beneficiaryID) {
+//		this.beneficiaryID = beneficiaryID;
+//	}
 	public UserDetails getUserDetails() {
 		return userDetails;
 	}

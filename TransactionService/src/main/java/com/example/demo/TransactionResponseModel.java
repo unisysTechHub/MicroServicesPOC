@@ -1,18 +1,21 @@
 package com.example.demo;
 
 import com.example.demo.entity.Transaction;
+import com.example.demo.model.TransactionModel;
 
-public class TransactionResponseModel extends BaseResponse{
+public class TransactionResponseModel extends BaseResponse {
 
-	Transaction transaction;
+	TransactionModel transactionModel;
 
-	public Transaction getTransaction() {
-		return transaction;
+	public TransactionModel getTransactionModel() {
+		return transactionModel;
 	}
 
-	public void setTransaction(Transaction transaction) {
-		this.transaction = transaction;
+	public void setTransactionModel(TransactionModel transactionModel) {
+		this.transactionModel = transactionModel;
 	}
+
 	
-	
+
+		
 }

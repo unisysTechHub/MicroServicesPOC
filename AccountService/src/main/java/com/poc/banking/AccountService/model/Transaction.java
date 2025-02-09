@@ -2,6 +2,8 @@ package com.poc.banking.AccountService.model;
 
 import java.math.BigDecimal;
 
+import com.example.demo.service.model.TransferType;
+
 
 public class Transaction {
 
@@ -16,6 +18,8 @@ public class Transaction {
     private BigDecimal amount;
 
     private TransactionType transactionType;
+    private TransferType transferType;
+
     
     private UserDetails userDetails;
     
@@ -88,6 +92,14 @@ public class Transaction {
 
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
+	}
+
+	public TransferType getTransferType() {
+		return transferType;
+	}
+
+	public void setTransferType(TransferType transferType) {
+		this.transferType = transferType;
 	}
 	
     

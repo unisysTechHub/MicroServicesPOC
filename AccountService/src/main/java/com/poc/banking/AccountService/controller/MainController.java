@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 
 import javax.swing.text.html.FormSubmitEvent.MethodType;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,8 @@ import com.poc.banking.AccountService.url.URL;
 @RestController
 @RequestMapping(value= "api/account")
 public class MainController {
-	
+	 private final Log log = LogFactory.getLog(getClass()); 
+
 	@Autowired
 	ManageAccountService manageAccountService;
 
@@ -50,7 +53,8 @@ public class MainController {
 	@RequestMapping(value= "/prepare", method = RequestMethod.POST,consumes = "application/json")
 	@ResponseBody
 	String prepare(@RequestBody Transaction transaction) {
-		
+			log.info("Reqyest mappping prepare requestmapping callled");
+
 		 //update account with PREPARED or FAILED 
 		//PREPARED - retrun PREAPRED
 		

@@ -45,4 +45,14 @@ public class MainTransferController {
 		
 	}
 	
+	@RequestMapping(value= "/beneficaireis1", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	BeneficiaryListResponse beneficiaryLis1(@RequestBody UserDetails userDetails) {
+		Beneficiaries  b = userRepositoryCustom.findBeneficiaryByBankname("ABC Bank").get(0);
+		System.out.println("@Ramesh" + b.getAccountNumber());
+		System.out.println("@Rameseh controller " + userDetails.getUserId());
+		return beneficiariesService.listBeneficiaries(userDetails);
+		
+	}
+	
 }

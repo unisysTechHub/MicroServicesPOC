@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import com.example.demo.model.Account;
 
 public class Transaction {
+	private String transactionId;
 	private String senderAccount;
     
 	private String senderAccountType;
@@ -116,6 +117,14 @@ public class Transaction {
 
 	public void setBeneficiary(Beneficiary beneficiary) {
 		this.beneficiary = beneficiary;
+	}
+
+	public String getTransactionId() {
+		return transactionId;
+	}
+
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
 	}
 
 	

@@ -1,14 +1,16 @@
 package com.example.demo.model;
 
-public class TransactionPrepareResponse extends BaseResponse {
-  String transactoinId;
+import com.example.demo.service.model.Transaction;
 
-public String getTransactoinId() {
-	return transactoinId;
+public class TransactionPrepareResponse extends BaseResponse {
+  Transaction transactoin;
+
+public Transaction getTransactoin() {
+	return transactoin;
 }
 
-public void setTransactoinId(String transactoinId) {
-	this.transactoinId = transactoinId;
-} 
-  
+public void setTransactoin(Transaction transactoin) {
+	this.transactoin = transactoin;
+}
+
 }

@@ -5,11 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class TransactionIDGenerator {
-    public static void main(String[] args) {
-        String transactionId = generateTransactionId();
-        System.out.println("Transaction ID: " + transactionId);
-    }
-
+    
     public static String generateTransactionId() {
         // Format: YYYYMMDD-HHMMSS
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");

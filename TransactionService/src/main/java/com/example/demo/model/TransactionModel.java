@@ -14,7 +14,7 @@ import jakarta.persistence.PrePersist;
 
 public class TransactionModel {
 	
-
+   private  String transactionId; 
     private Long senderAccount;
     
     private String senderAccountType;
@@ -127,6 +127,14 @@ public class TransactionModel {
 
 	public void setTransferType(TransferType transferType) {
 		this.transferType = transferType;
+	}
+
+	public String getTransactionId() {
+		return transactionId;
+	}
+
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
 	}
     
 	

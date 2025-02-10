@@ -13,7 +13,6 @@ import com.example.demo.TransactionResponseModel;
 import com.example.demo.model.TransactionIDGenerator;
 import com.example.demo.model.TransactionModel;
 import com.example.demo.service.TransactionService;
-import com.poc.banking.AccountService.model.Transaction;
 
 @RestController
 public class MainController {

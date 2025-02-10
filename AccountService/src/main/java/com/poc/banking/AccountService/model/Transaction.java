@@ -2,7 +2,6 @@ package com.poc.banking.AccountService.model;
 
 import java.math.BigDecimal;
 
-import com.example.demo.service.model.TransferType;
 
 
 public class Transaction {

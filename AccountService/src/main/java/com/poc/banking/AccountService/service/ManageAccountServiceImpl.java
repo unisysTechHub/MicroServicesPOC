@@ -1,5 +1,7 @@
 package com.poc.banking.AccountService.service;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,10 +77,10 @@ public class ManageAccountServiceImpl implements ManageAccountService{
 		 }
 		Account account  = getAccount(transaction.getSenderAccount(),transaction.getUserDetails().getUserId());
 		try {
-		if((account.getAvailableBalance().compareTo(transaction.getAmount()) > 0) &&  
-				account.getTransactoinStatus().equals(OPEN)) {
+		if(isEligibleForPreparation(account,transaction.getAmount())) {
 		
 			account.setTransactoinStatus(PREPARED);
+			accountRepo.save(account);
 			log.debug(PREPARED);
 			
 			return PREPARED;
@@ -94,6 +96,10 @@ public class ManageAccountServiceImpl implements ManageAccountService{
 			return e.getLocalizedMessage();
 		}
 	}
+	private boolean isEligibleForPreparation(Account account, BigDecimal transactionAmount) {
+	    return account.getAvailableBalance().compareTo(transactionAmount) > 0 &&
+	           OPEN.equals(account.getTransactoinStatus());
+	}
 	@Transactional
 	public String commit(Transaction transaction) {
 		log.info("commt method");
@@ -101,7 +107,7 @@ public class ManageAccountServiceImpl implements ManageAccountService{
 		log.debug("get sender account successfull  " + account.getAccountNumber());
 		try {
 			if(account.getTransactoinStatus().equals(PREPARED)) {
-			account.setAvailableBalance(transaction.getAmount());
+			account.setTransactoinStatus("OPEN");
 			 accountRepo.save(account);
 			 log.debug("commit  succcess");
 			 return "SUCCESS";
@@ -112,6 +118,7 @@ public class ManageAccountServiceImpl implements ManageAccountService{
 			}
 		
 		}catch(Exception e) {
+			//set trnansaction open
 			log.debug(e.getLocalizedMessage());
 			return e.getLocalizedMessage();
 		}

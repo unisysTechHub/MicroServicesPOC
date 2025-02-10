@@ -8,16 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.TransactionResponseModel;
 import com.example.demo.service.model.Transaction;
 
 @Service
 public class CoordinatorService  {
 	 private final Log log = LogFactory.getLog(getClass()); 
-
+     TransactionResponseModel transactionResponseModel;
 	@Autowired
 	private  List<Participant> services; // Participating services
 
-    public String startTransaction(Transaction transaction) {
+    public TransactionResponseModel startTransaction(Transaction transaction) {
     	
         boolean allPrepared = true;
 
@@ -33,14 +34,23 @@ public class CoordinatorService  {
         	log.info(" account and transacion is prepared ");
             for (Participant service : services) {
                 service.commit();
+                if (service instanceof TransactionService) {
+                    System.out.println("The service is an instance of Transaction.");
+                    this.transactionResponseModel = ((TransactionService) service).transactionResponseModel;
+                }
             }
-            return "Transaction Committed";
+            log.info(" account and transacion commit success");
+            return this.transactionResponseModel;
         } else {
             for (Participant service : services) {
                 service.rollback();
             }
         	log.info(" account and transacion is rolledback ");
-            return "Transaction Rolled Back";
+        	this.transactionResponseModel = new TransactionResponseModel(); 
+        	this.transactionResponseModel.setTransactoin(transaction);
+        	this.transactionResponseModel.setResponseCode("304");
+        	this.transactionResponseModel.setMessage("Transaction is not success full");
+            return this.transactionResponseModel;
         }
     }
 

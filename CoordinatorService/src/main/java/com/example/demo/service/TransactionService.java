@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.model.TransactionPrepareResponse;
+import com.example.demo.model.TransactionResponseModel;
 import com.example.demo.service.model.Transaction;
 
 public class TransactionService implements Participant{
@@ -22,6 +23,7 @@ public class TransactionService implements Participant{
 	public static String  urlRollback = "http://localhost:8082/api/rollback";
 	Transaction transaction;
 	String transactionId;
+	TransactionResponseModel transactionResponseModel;
 	@Override
     public boolean prepare(Transaction transaction) {
 		log.info("transaction service prepared method");
@@ -36,11 +38,25 @@ public class TransactionService implements Participant{
 		TransactionPrepareResponse response = restTemplate.postForObject(uri, transaction, TransactionPrepareResponse.class);
     	this.transactionId = response.getTransactoin().getTransactionId();
     	log.debug("tranasction service prepared response transaction id " + response.getTransactoin().getTransactionId());
-    	log.debug("tranasction service prepared response status " + response.getStatus());
+    	log.debug("tranasction service prepared response status " + response.getMessage());
+    	this.transactionResponseModel = buildResponse(response);
     	this.transaction = response.getTransactoin();
-          return response.getStatus().equals(PREPARED);
+          return response.getMessage().equals(PREPARED);
     }
 
+	TransactionResponseModel buildResponse(TransactionPrepareResponse prepareResponse) {
+        if (prepareResponse == null || prepareResponse.getTransactoin() == null) {
+            throw new IllegalArgumentException("Invalid TransactionPrepareResponse provided.");
+        }
+
+        Transaction transaction = prepareResponse.getTransactoin();
+        TransactionResponseModel responseModel = new TransactionResponseModel();
+        responseModel.setTransactoin(transaction);
+        responseModel.setResponseCode(prepareResponse.getResponseCode());
+        responseModel.setMessage(prepareResponse.getMessage());
+        
+        return responseModel;
+    }
     @Override
     public void commit() {
 		log.info("transaction service commit method");

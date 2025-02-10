@@ -26,19 +26,22 @@ public class TransactionService {
 	@Transactional
    public TransactionResponseModel prepare(TransactionModel transactionModel) {
 		log.info("Prepare method");
-	   //build and add Trnasction to Transaction Table with status PENDING
+	   
 	   Transaction transaction = TransactionMapper.toEntity(transactionModel);
 	   try {
+		   transaction.setStatus(TransactionStatus.PREPARED);
 		   transactionRepo.save(transaction);
 	   }catch(Exception e) {
 		   TransactionResponseModel transactionResponseModel = new TransactionResponseModel();
-		   transactionResponseModel.setStatus(FAILED);
+		   transactionResponseModel.setMessage(FAILED);
+		   transactionResponseModel.setResponseCode("304");
 			log.debug(e.getLocalizedMessage());	   
 		   return transactionResponseModel;
 	   }
 	  
 	   TransactionResponseModel transactionResponseModel = new TransactionResponseModel();
-	   transactionResponseModel.setStatus(PREPARED);
+	   transactionResponseModel.setMessage(PREPARED);
+	   transactionResponseModel.setResponseCode("200");
 	   transactionResponseModel.setTransactionModel(TransactionMapper.toModel(transaction));
 	   log.debug("Transaction updated in database" + transaction.getTransactionId());
 	  return transactionResponseModel;
@@ -47,10 +50,11 @@ public class TransactionService {
 	@Transactional
    public String commit(TransactionModel transactionModel) {
 		log.info("commit ");
-	   Transaction transaction = TransactionMapper.toEntity(transactionModel);
-	   TransactionMapper.updateTransactionStatus(transaction, TransactionStatus.TransferPending);
+	  // Transaction transaction = TransactionMapper.toEntity(transactionModel);
+	  // TransactionMapper.updateTransactionStatus(transaction, TransactionStatus.TransferPending);
 	   try {
-		   transactionRepo.save(transaction);
+		   String transactionId = transactionModel.getTransactionId();
+		   transactionRepo.updateTransactionStatus(Long.parseLong(transactionId), TransactionStatus.TransferPending);
 		   log.info("commit sucess - transfer pending udpated");
 		   return "SUCCESS";
 	   }catch(Exception e) {
@@ -63,10 +67,12 @@ public class TransactionService {
 	@Transactional
    public String rollback(TransactionModel transactionModel) {
 		log.debug("rollback");
-	   Transaction transaction = TransactionMapper.toEntity(transactionModel);
-	   TransactionMapper.updateTransactionStatus(transaction, TransactionStatus.FAILED);
+//	   Transaction transaction = TransactionMapper.toEntity(transactionModel);
+	//   TransactionMapper.updateTransactionStatus(transaction, TransactionStatus.FAILED);
 	   try {
-		   transactionRepo.save(transaction);
+		   String transactionId = transactionModel.getTransactionId();
+		   transactionRepo.updateTransactionStatus(Long.parseLong(transactionId), TransactionStatus.FAILED);
+		//   transactionRepo.save(transaction);
 		   log.debug("updated failed status");
 		   return "SUCCESS";
 	   }

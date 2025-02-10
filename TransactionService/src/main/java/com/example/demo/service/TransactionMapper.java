@@ -31,9 +31,7 @@ public class TransactionMapper {
         }
         
         Transaction transaction = new Transaction();
-        if (model.getTransactionId() != null) {
-            transaction.setId(Long.valueOf(model.getTransactionId()));
-        }
+        transaction.setTransactionId(model.getTransactionId());
         transaction.setSenderAccount(String.valueOf(model.getSenderAccount()));
         transaction.setSenderAccountType(model.getSenderAccountType());
         transaction.setReceiverAccount(String.valueOf(model.getReceiverAccount()));

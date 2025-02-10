@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.TransactionResponseModel;
 import com.example.demo.service.CoordinatorService;
 import com.example.demo.service.model.Transaction;
 
@@ -16,11 +17,11 @@ public class MainController {
 	@Autowired
 	CoordinatorService coordinatorService;
 	 private final Log log = LogFactory.getLog(getClass()); 
-	@PostMapping(value = "/transfer", consumes = "application/json")
-	public Transaction startTransfer(Transaction transaction) {
+	@PostMapping(value = "/starttransfer", consumes = "application/json")
+	public TransactionResponseModel startTransfer(Transaction transaction) {
 		log.info("Co orditnore service - startTransfer method ");
 		log.debug("Co ordinator service " + transaction.getSenderAccount() +  "receiver account " + transaction.getReceiverAccount());
-		coordinatorService.startTransaction(transaction);
-			return transaction;
+	return	coordinatorService.startTransaction(transaction);
+			
 	}
 }

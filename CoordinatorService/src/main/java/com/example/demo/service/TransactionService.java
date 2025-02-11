@@ -18,40 +18,36 @@ public class TransactionService implements Participant{
 	public static String PREPARED = "PREPARED";
     public static String FAILED = "FAILED";
     public static String OPEN = "OPEN";
-	public static String  urlPrepare = "http://localhost:8082/api/prepare";
-	public static String  urlCommit = "http://localhost:8082/api/commit";
-	public static String  urlRollback = "http://localhost:8082/api/rollback";
+	public static String  urlPrepare = "http://localhost:8086/api/prepare";
+	public static String  urlCommit = "http://localhost:8086/api/commit";
+	public static String  urlRollback = "http://localhost:8086/api/rollback";
 	Transaction transaction;
 	String transactionId;
 	TransactionResponseModel transactionResponseModel;
 	@Override
     public boolean prepare(Transaction transaction) {
 		log.info("transaction service prepared method");
-    	URI uri = null;
-		try {
-			uri = new URI(urlPrepare);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	
 		RestTemplate restTemplate = new RestTemplate();
-		TransactionPrepareResponse response = restTemplate.postForObject(uri, transaction, TransactionPrepareResponse.class);
-    	this.transactionId = response.getTransactoin().getTransactionId();
-    	log.debug("tranasction service prepared response transaction id " + response.getTransactoin().getTransactionId());
+		TransactionPrepareResponse response = restTemplate.postForObject(urlPrepare, transaction, TransactionPrepareResponse.class);
+		log.debug("tranasction service prepared response status " + response.getMessage());
+    	this.transactionId = response.getTransaction().getTransactionId();
+   
+    	log.debug("tranasction service prepared response transaction id " + response.getTransaction().getTransactionId());
     	log.debug("tranasction service prepared response status " + response.getMessage());
-    	this.transactionResponseModel = buildResponse(response);
-    	this.transaction = response.getTransactoin();
+     	this.transactionResponseModel = buildResponse(response);
+     	this.transaction = response.getTransaction();
           return response.getMessage().equals(PREPARED);
     }
 
 	TransactionResponseModel buildResponse(TransactionPrepareResponse prepareResponse) {
-        if (prepareResponse == null || prepareResponse.getTransactoin() == null) {
+        if (prepareResponse == null || prepareResponse.getTransaction() == null) {
             throw new IllegalArgumentException("Invalid TransactionPrepareResponse provided.");
         }
 
-        Transaction transaction = prepareResponse.getTransactoin();
+        Transaction transaction = prepareResponse.getTransaction();
         TransactionResponseModel responseModel = new TransactionResponseModel();
-        responseModel.setTransactoin(transaction);
+        responseModel.setTransaction(transaction);
         responseModel.setResponseCode(prepareResponse.getResponseCode());
         responseModel.setMessage(prepareResponse.getMessage());
         

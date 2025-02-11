@@ -3,6 +3,7 @@ package com.example.demo.service;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.TransactionResponseModel;
@@ -30,23 +31,42 @@ public class TransactionService {
 	   Transaction transaction = TransactionMapper.toEntity(transactionModel);
 	   try {
 		   transaction.setStatus(TransactionStatus.PREPARED);
-		   transactionRepo.save(transaction);
-	   }catch(Exception e) {
+		   logTransactionDetails(transaction);
+		    transactionRepo.save(transaction);
+	   }catch(DataIntegrityViolationException  e) {
 		   TransactionResponseModel transactionResponseModel = new TransactionResponseModel();
 		   transactionResponseModel.setMessage(FAILED);
 		   transactionResponseModel.setResponseCode("304");
 			log.debug(e.getLocalizedMessage());	   
 		   return transactionResponseModel;
 	   }
-	  
+	   
 	   TransactionResponseModel transactionResponseModel = new TransactionResponseModel();
 	   transactionResponseModel.setMessage(PREPARED);
 	   transactionResponseModel.setResponseCode("200");
-	   transactionResponseModel.setTransactionModel(TransactionMapper.toModel(transaction));
-	   log.debug("Transaction updated in database" + transaction.getTransactionId());
+	   transactionResponseModel.setTransaction(TransactionMapper.toModel(transaction));
+	   log.info("Transaction updated in database" +transactionResponseModel.getTransaction().getTransactionId());
 	  return transactionResponseModel;
    }
-	
+	private void logTransactionDetails(Transaction transaction) {
+        System.out.println("----- Transaction Details Before Saving -----");
+        System.out.println("ID: " + transaction.getId());
+        System.out.println("Transaction ID: " + transaction.getTransactionId());
+        System.out.println("Beneficiary ID: " + transaction.getBeneficiary().getId());
+        System.out.println("Sender Account ID: " + transaction.getSenderAccount());
+        System.out.println("Sender Account Type: " + transaction.getSenderAccountType());
+        System.out.println("Receiver Account ID: " + transaction.getReceiverAccount());
+        System.out.println("Receiver Account Type: " + transaction.getReceiverAccountType());
+        System.out.println("Amount: " + transaction.getAmount());
+        System.out.println("User ID: " + (transaction.getUserDetails() != null ? transaction.getUserDetails().getId() : "N/A"));
+        System.out.println("Transaction Type: " + transaction.getTransactionType());
+        System.out.println("Transfer Type: " + transaction.getTransferType());
+        System.out.println("Status: " + transaction.getStatus());
+        System.out.println("Transaction Date: " + transaction.getTransactionDate());
+        System.out.println("Description: " + transaction.getDescription());
+        System.out.println("Balance After Transaction: " + transaction.getBalanceAfterTransaction());
+        System.out.println("---------------------------------------------");
+    }
 	@Transactional
    public String commit(TransactionModel transactionModel) {
 		log.info("commit ");

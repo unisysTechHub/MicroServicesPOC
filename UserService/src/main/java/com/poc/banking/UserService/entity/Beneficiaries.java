@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Table(name = "Beneficiaries",indexes = @Index(name="index_acct_no",columnList = "AccountNumber"))
 public class Beneficiaries {
 	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id; 
 	
 	@JsonBackReference

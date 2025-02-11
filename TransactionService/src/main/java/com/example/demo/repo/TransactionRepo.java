@@ -12,6 +12,7 @@ import com.example.demo.model.TransactionStatus;
 
 import io.lettuce.core.dynamic.annotation.Param;
 
+@Repository
 public interface TransactionRepo extends CrudRepository<Transaction, Long>, JpaSpecificationExecutor<Transaction> {
 	@Modifying
 	@Query("UPDATE Transaction t SET t.status = :status WHERE t.id = :id")

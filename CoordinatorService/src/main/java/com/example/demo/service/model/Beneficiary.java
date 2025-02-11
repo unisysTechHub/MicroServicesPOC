@@ -1,7 +1,7 @@
 package com.example.demo.service.model;
 
 public class Beneficiary {
-	private String userId;
+	private int id;
 	//(External account number)
 	private Long	AccountNumber ;
 	private	String	BankName;
@@ -15,11 +15,13 @@ public class Beneficiary {
 	private String  currency = "usd";
 	private String iban;
 	private String swiftBicCode;
-	public String getUserId() {
-		return userId;
+	
+	
+	public int getId() {
+		return id;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public Long getAccountNumber() {
 		return AccountNumber;
@@ -93,5 +95,5 @@ public class Beneficiary {
 	public void setSwiftBicCode(String swiftBicCode) {
 		this.swiftBicCode = swiftBicCode;
 	}
-	
+		
 }

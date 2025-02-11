@@ -1,6 +1,5 @@
-package com.poc.banking.AccountService.model;
+package com.poc.banking.UserService.enums;
 
 public enum TransferType {
 	INTRA,INTERNAL,DomesticAch,DomesticWire,International
-	
 }

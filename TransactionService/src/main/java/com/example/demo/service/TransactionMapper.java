@@ -10,9 +10,9 @@ public class TransactionMapper {
         if (transaction == null) {
             return null;
         }
-        
+       
         TransactionModel model = new TransactionModel();
-        model.setTransactionId(String.valueOf(transaction.getId()));
+        model.setTransactionId(transaction.getTransactionId());
         model.setSenderAccount(Long.valueOf(transaction.getSenderAccount()));
         model.setSenderAccountType(transaction.getSenderAccountType());
         model.setReceiverAccount(Long.valueOf(transaction.getReceiverAccount()));
@@ -21,6 +21,9 @@ public class TransactionMapper {
         model.setTransactionType(transaction.getTransactionType());
         model.setTransferType(transaction.getTransferType());
         model.setDescription(transaction.getDescription());
+        model.setBeneficiary(transaction.getBeneficiary());
+        model.setUserDetails(transaction.getUserDetails());
+        
         
         return model;
     }
@@ -32,14 +35,17 @@ public class TransactionMapper {
         
         Transaction transaction = new Transaction();
         transaction.setTransactionId(model.getTransactionId());
-        transaction.setSenderAccount(String.valueOf(model.getSenderAccount()));
+        transaction.setSenderAccount(model.getSenderAccount());
         transaction.setSenderAccountType(model.getSenderAccountType());
-        transaction.setReceiverAccount(String.valueOf(model.getReceiverAccount()));
+        transaction.setReceiverAccount(model.getReceiverAccount());
         transaction.setReceiverAccountType(model.getReceiverAccountType());
         transaction.setAmount(model.getAmount());
         transaction.setTransactionType(model.getTransactionType());
         transaction.setTransferType(model.getTransferType());
         transaction.setDescription(model.getDescription());
+        transaction.setUserDetails(model.getUserDetails());
+        transaction.setBeneficiary(model.getBeneficiary());
+       
         
         return transaction;
     }

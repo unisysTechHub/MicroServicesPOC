@@ -42,37 +42,38 @@
 # secrets:
 #   db-password:
 #     file: db/password.txt
-services:
- zookeeper:
-  image: confluentinc/cp-zookeeper
-  environment:
-    ZOOKEEPER_CLIENT_PORT: 2181
-    ZOOKEEPER_TICK_TIME: 2000
-  ports:
-    - "2181:2181"
+version: '3'
 
- kafka:
-  image: confluentinc/cp-kafka
-  depends_on:
-    - zookeeper
-  ports:
-    - "9092:9092"
-  environment:
-    KAFKA_BROKER_ID: 1
-    KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
- mysql:
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  mysql:
     image: mysql
     ports:
       - "3306:3306"
-    expose:
-      - "3306"
     environment:
-    - MYSQL_USER=springuser
-    - MYSQL_PASSWORD=ThePassword
-    - MYSQL_DATABASE=db_example
-    - MYSQL_ROOT_PASSWORD=root
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+      MYSQL_DATABASE: db_example
+      MYSQL_ROOT_PASSWORD: root
     volumes:
-    - "./conf.d:/etc/mysql/conf.d:ro"
- 
+      - "./conf.d:/etc/mysql/conf.d:ro"

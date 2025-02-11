@@ -47,7 +47,7 @@ public class CoordinatorService  {
             }
         	log.info(" account and transacion is rolledback ");
         	this.transactionResponseModel = new TransactionResponseModel(); 
-        	this.transactionResponseModel.setTransactoin(transaction);
+        	this.transactionResponseModel.setTransaction(transaction);
         	this.transactionResponseModel.setResponseCode("304");
         	this.transactionResponseModel.setMessage("Transaction is not success full");
             return this.transactionResponseModel;

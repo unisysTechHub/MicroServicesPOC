@@ -17,9 +17,9 @@ public class AccountService implements Participant {
 	public static String PREPARED = "PREPARED";
     public static String FAILED = "FAILED";
     public static String OPEN = "OPEN";
-	public static String  urlPrepare = "http://localhost:8081/api/prepare";
-	public static String  urlCommit = "http://localhost:8082/api/commit";
-	public static String  urlRollback = "http://localhost:8082/api/rollback";
+	public static String  urlPrepare = "http://localhost:8083/api/account/prepare";
+	public static String  urlCommit = "http://localhost:8083/api/account/commit";
+	public static String  urlRollback = "http://localhost:8083/api/account/rollback";
 	private final Map<String, Double> accounts = new HashMap<>();
     private final Map<String, Double> reservedFunds = new HashMap<>();
     Transaction transaction;

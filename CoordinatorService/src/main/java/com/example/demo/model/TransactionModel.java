@@ -1,11 +1,12 @@
-package com.example.demo.service.model;
+package com.example.demo.model;
 
 import java.math.BigDecimal;
 
-import com.example.demo.model.Account;
-import com.example.demo.model.UserDetails;
+import com.example.demo.service.model.Beneficiary;
+import com.example.demo.service.model.TransactionType;
+import com.example.demo.service.model.TransferType;
 
-public class Transaction {
+public class TransactionModel {
 	private  String transactionId; 
     private Long senderAccount;
     
@@ -139,5 +140,4 @@ public class Transaction {
 	}
 
 	
-
 }

@@ -3,6 +3,9 @@ package com.example.demo.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.example.demo.entity.Beneficiaries;
+import com.example.demo.entity.UserDetails;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
@@ -32,10 +35,9 @@ public class TransactionModel {
     private Account senderAccountDetails;
     
     private Account receiverAccountDetails;
-    
-    private Beneficiary receiverBeneficiary;
+    private Beneficiaries beneficiary;
 	//private LocalDateTime 	transactionDate; 
-	
+	private UserDetails userDetails; 
 	private String	description;
 
 	
@@ -97,12 +99,12 @@ public class TransactionModel {
 		this.receiverAccountDetails = receiverAccountDetails;
 	}
 
-	public Beneficiary getReceiverBeneficiary() {
-		return receiverBeneficiary;
+	public Beneficiaries getBeneficiary() {
+		return beneficiary;
 	}
 
-	public void setReceiverBeneficiary(Beneficiary receiverBeneficiary) {
-		this.receiverBeneficiary = receiverBeneficiary;
+	public void setBeneficiary(Beneficiaries beneficiary) {
+		this.beneficiary = beneficiary;
 	}
 
 	public Long getSenderAccount() {
@@ -135,6 +137,14 @@ public class TransactionModel {
 
 	public void setTransactionId(String transactionId) {
 		this.transactionId = transactionId;
+	}
+
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
 	}
     
 	

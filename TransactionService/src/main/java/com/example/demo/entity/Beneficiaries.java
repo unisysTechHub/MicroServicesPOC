@@ -141,6 +141,12 @@ public class Beneficiaries {
 	public void setSwiftBicCode(String swiftBicCode) {
 		this.swiftBicCode = swiftBicCode;
 	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 
 }

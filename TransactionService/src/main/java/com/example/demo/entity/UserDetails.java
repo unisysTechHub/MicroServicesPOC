@@ -29,10 +29,10 @@ public class UserDetails {
 	String userId;
 	String password;
 	
-	@JsonManagedReference
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDetails")
-	List<Transaction> transactionList;
-	
+//	@JsonManagedReference
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDetails")
+//	List<Transaction> transactionList;
+//	
 	public int getId() {
 		return id;
 	}

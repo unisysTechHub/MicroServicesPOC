@@ -15,6 +15,7 @@ import com.example.demo.model.TransactionModel;
 import com.example.demo.service.TransactionService;
 
 @RestController
+@RequestMapping(value = "/api")
 public class MainController {
 	 private final Log log = LogFactory.getLog(getClass()); 
 
@@ -31,7 +32,7 @@ public class MainController {
 		//on error return Error message
 		transaction.setTransactionId(TransactionIDGenerator.generateTransactionId());
 		log.debug("Transaction id generated " + transaction.getTransactionId());
-		
+		System.out.println("@Ramesh Transaction id generated " + transaction.getTransactionId());
 		return transactionService.prepare(transaction);
 	}
 	

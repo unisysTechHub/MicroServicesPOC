@@ -13,7 +13,6 @@ import com.poc.banking.UserService.transfer.response.BeneficiaryResponseModel;
 public interface BeneficiaryMapper {
     BeneficiaryMapper INSTANCE = Mappers.getMapper(BeneficiaryMapper.class);
 
-    @Mapping(target = "beneficiaryID", ignore = true) // Ignore fields not present in Beneficiary
     @Mapping(target = "userDetails", ignore = true)  // Handle associations manually if needed
     Beneficiaries toBeneficiaries(Beneficiary beneficiary);
 

@@ -4,14 +4,14 @@ import com.poc.banking.UserService.model.Transaction;
 import com.poc.banking.UserService.response.BaseResponse;
 
 public class TransactionResponseModel extends BaseResponse{
-	 Transaction transactoin;
+	 Transaction transaction;
 
-	public Transaction getTransactoin() {
-		return transactoin;
+	public Transaction getTransaction() {
+		return transaction;
 	}
 
-	public void setTransactoin(Transaction transactoin) {
-		this.transactoin = transactoin;
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
 	}
 	 
 }

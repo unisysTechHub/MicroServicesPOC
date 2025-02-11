@@ -3,14 +3,17 @@ package com.example.demo.model;
 import com.example.demo.service.model.Transaction;
 
 public class TransactionPrepareResponse extends BaseResponse {
-  Transaction transactoin;
+  Transaction transaction;
 
-public Transaction getTransactoin() {
-	return transactoin;
+public Transaction getTransaction() {
+	return transaction;
 }
 
-public void setTransactoin(Transaction transactoin) {
-	this.transactoin = transactoin;
+public void setTransaction(Transaction transaction) {
+	this.transaction = transaction;
 }
 
+
+
+  
 }

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import com.example.demo.model.TransactionStatus;
 import com.example.demo.model.TransactionType;
 import com.example.demo.model.TransferType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "transactions")
@@ -21,23 +22,24 @@ import com.example.demo.model.TransferType;
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    private int id;
     
     @Column(name = "transaction_id", nullable = false)
     private String transactionId;
+    
     @ManyToOne
     @JoinColumn(name = "beneficiary_id") // Foreign key managed here
     private Beneficiaries beneficiary; 
     
     @Column(name = "sender_account_id", nullable = false)
-    private String senderAccount;
+    private Long senderAccount;
     
     @Column(name="sender_account_type", nullable =false)
     private String senderAccountType;
 
     @Column(name = "receiver_account_id", nullable = false)
-    private String receiverAccount;
+    private Long receiverAccount;
     
     @Column(name="receiver_account_type", nullable =false)
     private String receiverAccountType;
@@ -46,6 +48,7 @@ public class Transaction {
     private BigDecimal amount;
     
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name="USER_ID", nullable=false, updatable=false)
     private UserDetails userDetails;
 
@@ -66,35 +69,27 @@ public class Transaction {
 	@Column
 	private String	description;
 	@Column
-	private	Double balanceAfterTransaction;
+	private	Double balanceAfterTransaction=0.0;
     @PrePersist
     protected void onCreate() {
         this.transactionDate = LocalDateTime.now();
     }
-	public Long getId() {
+	
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	public String getSenderAccount() {
-		return senderAccount;
-	}
-	public void setSenderAccount(String senderAccount) {
-		this.senderAccount = senderAccount;
-	}
+
 	public String getSenderAccountType() {
 		return senderAccountType;
 	}
 	public void setSenderAccountType(String senderAccountType) {
 		this.senderAccountType = senderAccountType;
 	}
-	public String getReceiverAccount() {
-		return receiverAccount;
-	}
-	public void setReceiverAccount(String receiverAccount) {
-		this.receiverAccount = receiverAccount;
-	}
+	
 	public String getReceiverAccountType() {
 		return receiverAccountType;
 	}
@@ -161,6 +156,19 @@ public class Transaction {
 	public void setBeneficiary(Beneficiaries beneficiary) {
 		this.beneficiary = beneficiary;
 	}
+	public Long getSenderAccount() {
+		return senderAccount;
+	}
+	public void setSenderAccount(Long senderAccount) {
+		this.senderAccount = senderAccount;
+	}
+	public Long getReceiverAccount() {
+		return receiverAccount;
+	}
+	public void setReceiverAccount(Long receiverAccount) {
+		this.receiverAccount = receiverAccount;
+	}
     
+	
     
 }

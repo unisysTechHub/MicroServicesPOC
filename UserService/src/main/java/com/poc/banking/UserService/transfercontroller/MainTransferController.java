@@ -1,5 +1,7 @@
 package com.poc.banking.UserService.transfercontroller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,8 @@ public class MainTransferController {
 	
 	
 	
+	 private final Log log = LogFactory.getLog(getClass()); 
+
 	@RequestMapping(value = "/addBeneficiary", method = RequestMethod.POST,consumes = "application/json" )
 	@ResponseBody
 	BeneficiaryResponseModel addBeneficiary(@RequestBody Beneficiary beneficiary) {
@@ -44,8 +48,8 @@ public class MainTransferController {
 	@RequestMapping(value = "/beneficiaries", method = RequestMethod.POST,consumes = "application/json" )
 	@ResponseBody
 	BeneficiaryListResponse beneficiaryList(@RequestBody UserDetails userDetails) {
-		Beneficiaries  b = userRepositoryCustom.findBeneficiaryByBankname("ABC Bank").get(0);
-		System.out.println("@Ramesh" + b.getAccountNumber());
+		//Beneficiaries  b = userRepositoryCustom.findBeneficiaryByBankname("ABC Bank").get(0);
+		//System.out.println("@Ramesh" + b.getAccountNumber());
 		System.out.println("@Rameseh controller " + userDetails.getUserId());
 		return beneficiariesService.listBeneficiaries(userDetails);
 		
@@ -54,7 +58,11 @@ public class MainTransferController {
 	@RequestMapping(value= "/initiatetransfer", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	TransactionResponseModel initiateTransfer(@RequestBody Transaction transaction) {
+		log.debug("User service " + transaction.getTransferType() +  "receiver account " + transaction.getReceiverAccount());
+         System.out.println("@Ramesh mUser service " + transaction.getBeneficiary().getId() +  "receiver account " + transaction.getReceiverAccount());
 		RestTemplate resttemplate  = new RestTemplate();
+		TransactionResponseModel responsemodel =	resttemplate.postForObject(URL.coordinatorService,transaction,TransactionResponseModel.class );
+		System.out.println("start transactin" + responsemodel.getTransaction().getTransactionId());		
 		return resttemplate.postForObject(URL.coordinatorService,transaction,TransactionResponseModel.class );
 	}
 	

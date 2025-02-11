@@ -29,8 +29,8 @@ import jakarta.persistence.Table;
 	)
 public class Account {
     @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false,referencedColumnName="userId")
@@ -60,15 +60,15 @@ public class Account {
 		this.accountNumber = accountNumber;
 	}
 
-	public Long getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
-
 	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public UserDetails getUserDetails() {
 		return userDetails;

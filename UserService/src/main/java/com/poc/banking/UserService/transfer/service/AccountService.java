@@ -75,7 +75,7 @@ public class AccountService {
     AccountTransactionModel buildAccountMainModel(Account account) {
     	AccountTransactionModel accountTransactionModel = new AccountTransactionModel();
     	accountTransactionModel.setAccountNumber(Long.parseLong(account.getAccountNumber()));
-    	accountTransactionModel.setAccountId(account.getAccountId());
+    	accountTransactionModel.setAccountId(account.getId());
     	accountTransactionModel.setAccountType(account.getUsBankAccount().getAccountType());
     	return accountTransactionModel;
     }

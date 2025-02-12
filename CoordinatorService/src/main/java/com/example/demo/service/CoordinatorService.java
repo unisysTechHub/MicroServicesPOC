@@ -40,6 +40,7 @@ public class CoordinatorService  {
                 }
             }
             log.info(" account and transacion commit success");
+            this.transactionResponseModel.setMessage("Transfer transaction successfull");
             return this.transactionResponseModel;
         } else {
             for (Participant service : services) {

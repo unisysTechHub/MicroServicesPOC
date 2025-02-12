@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaTopicService {
 	
-  @Autowired
-  private  AdminClient adminClient;
-	
-	public void deleteTopic(String topicName) {
-        adminClient.deleteTopics(Collections.singletonList(topicName));
-        System.out.println("Topic deleted: " + topicName);
-    }
-
-	public AdminClient getAdminClient() {
-		return adminClient;
-	}
+//  @Autowired
+//  private  AdminClient adminClient;
+//	
+//	public void deleteTopic(String topicName) {
+//        adminClient.deleteTopics(Collections.singletonList(topicName));
+//        System.out.println("Topic deleted: " + topicName);
+//    }
+//
+//	public AdminClient getAdminClient() {
+//		return adminClient;
+//	}
 	
 }

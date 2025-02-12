@@ -41,7 +41,7 @@ public class ManageAccountServiceImpl implements ManageAccountService{
 		}
 		return addAccount;
 	}
-	
+	//kafka listener account_CREATED EVENT
 	public void addTransactionAccount(Account account) {
 		
 	}

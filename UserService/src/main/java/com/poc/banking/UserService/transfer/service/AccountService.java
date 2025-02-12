@@ -10,7 +10,6 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.poc.banking.UserService.KafkaAdminConfig;
 import com.poc.banking.UserService.entity.Account;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.entity.dto.AccountDto;
@@ -58,7 +57,7 @@ public class AccountService {
     
     //send to kafka , it not real time use case
     public void  sendMessage(Account account) {
-    	CompletableFuture<SendResult<String, AccountTransactionModel>> future =	 kafkaTemplate.send(KafkaAdminConfig.ACCOUNT_ADDED,buildAccountMainModel(account));
+    	CompletableFuture<SendResult<String, AccountTransactionModel>> future =	 kafkaTemplate.send("ACCOUNT_ADDED",buildAccountMainModel(account));
     	future.thenApply(result -> {
             System.out.println("Message sent successfully! " +
                     "Topic: " + result.getRecordMetadata().topic() +

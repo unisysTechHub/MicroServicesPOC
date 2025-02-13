@@ -2,7 +2,12 @@ package com.poc.banking.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -12,6 +17,7 @@ import com.poc.banking.UserService.entity.Account;
 import com.poc.banking.UserService.entity.Account.BillingDetails;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.entity.dto.AccountDto;
+import com.poc.banking.UserService.kafka.ListenerInspector;
 import com.poc.banking.UserService.response.AccountList;
 import com.poc.banking.UserService.response.LoginResponse;
 import com.poc.banking.UserService.response.NewUser;
@@ -25,7 +31,7 @@ import com.poc.banking.UserService.stripe.PaymentMethodAPI;
 @RestController
 @RequestMapping(value = "/api/user")
 public class MainConroller {
-
+	private static final String KAFKA_BROKER = "localhost:9092"; 
 	@Autowired
 	UserManagementService userManagementService;
 
@@ -34,6 +40,11 @@ public class MainConroller {
 
 	@Autowired
 	StripePaymentService stripePaymentService;
+	@Autowired
+	ListenerInspector listenerInspector;
+	
+	@Autowired
+	AdminClient adminClient;
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST,consumes = "application/json" )
 	@ResponseBody
@@ -101,6 +112,17 @@ public class MainConroller {
 		return paymentMethodRespose;
 	}
 	
-	
+	@GetMapping("/kafka")
+	public Map<String, String> checkKafkaHealth() {
+//	    Properties props = new Properties();
+//	    props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER);
+ listenerInspector.printListenerIds();
+	    try {
+	        adminClient.listTopics().names().get();
+	        return Map.of("status", "UP", "Kafka", "Running" );
+	    } catch (ExecutionException | InterruptedException e) {
+	        return Map.of("status", "DOWN", "Kafka", "Not Reachable");
+	    }
+	}
 	
 }

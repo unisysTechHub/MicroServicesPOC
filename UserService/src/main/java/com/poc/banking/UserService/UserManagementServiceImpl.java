@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 //import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import com.poc.banking.UserService.entity.Account;
 import com.poc.banking.UserService.entity.UserDetails;
+import com.poc.banking.UserService.kafka.ListenerInspector;
 import com.poc.banking.UserService.repo.UserRepository;
 import com.poc.banking.UserService.response.AccountList;
 import com.poc.banking.UserService.response.LoginResponse;
@@ -28,6 +30,7 @@ public class UserManagementServiceImpl implements  UserManagementService {
 
 	@Autowired
 	UserDetailsFluentQueryAPI queryAPI;
+	
 	@Transactional
 	@Override
 	public NewUser addUser(UserDetails userDetails) {
@@ -147,7 +150,7 @@ public class UserManagementServiceImpl implements  UserManagementService {
 		}
 		return response;
 	}
-//	 @KafkaListener(topics = "user-events", groupId = "group_id")
+	 @KafkaListener(id = "userEventsListener",topics = "user-events", groupId = "group_id")
 	    public void consume(String message) {
 	        System.out.println("@Ramesh Consumed message: " + message);
 	        // Process the message

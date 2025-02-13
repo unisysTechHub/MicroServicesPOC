@@ -58,6 +58,7 @@ public class MainTransferController {
 	@RequestMapping(value= "/initiatetransfer", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	TransactionResponseModel initiateTransfer(@RequestBody Transaction transaction) {
+		//validation pending
 		log.debug("User service " + transaction.getTransferType() +  "receiver account " + transaction.getReceiverAccount());
          System.out.println("@Ramesh mUser service " + transaction.getBeneficiary().getId() +  "receiver account " + transaction.getReceiverAccount());
 		RestTemplate resttemplate  = new RestTemplate();

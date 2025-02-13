@@ -5,10 +5,12 @@ import org.springframework.data.redis.core.RedisHash;
 import com.example.demo.entity.UserDetails;
 import com.example.demo.redis.AccountDeserializer;
 
+import java.io.Serializable;
+
 import org.apache.kafka.common.serialization.Deserializer;
 import org.springframework.data.annotation.Id;
 @RedisHash("Account")
-public class Account  extends AccountDeserializer {
+public class Account  extends AccountDeserializer implements Serializable{
 
     /**
 	 * 

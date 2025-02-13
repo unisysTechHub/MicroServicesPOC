@@ -2,63 +2,88 @@ package com.example.demo.model;
 
 import org.springframework.data.redis.core.RedisHash;
 
-import org.springframework.data.annotation.Id;
-import java.io.Serializable;
+import com.example.demo.entity.UserDetails;
+import com.example.demo.redis.AccountDeserializer;
 
+import org.apache.kafka.common.serialization.Deserializer;
+import org.springframework.data.annotation.Id;
 @RedisHash("Account")
-public class Account implements Serializable {
+public class Account  extends AccountDeserializer {
 
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	@Id
-    private String accountId;
-    private String accountNumber;
-    private String userId;
-    private String accountType;
+    long accountId;
+	
+	UserDetails userDetails;
+	
+	String accountType;
+	
+	long accountNumber;
+	
+	String transactoinStatus = "OPEN";
+	
+	double  availableBalance = 0;
+	
+	double currrentBaalance = 0;
 
-    // No-argument constructor (required by Spring Data Redis)
-    public Account() {}
+	
+	public long getAccountId() {
+		return accountId;
+	}
 
-    // All-arguments constructor
-    public Account(String accountId, String accountNumber, String userId, String accountType) {
-        this.accountId = accountId;
-        this.accountNumber = accountNumber;
-        this.userId = userId;
-        this.accountType = accountType;
-    }
+	public void setAccountId(long accountId) {
+		this.accountId = accountId;
+	}
 
-    // Getters and Setters
-    public String getAccountId() {
-        return accountId;
-    }
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
+	}
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
+	public String getAccountType() {
+		return accountType;
+	}
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public double getAvailableBalance() {
+		return availableBalance;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+	public void setAvailableBalance(double availableBalance) {
+		this.availableBalance = availableBalance;
+	}
 
-    public String getAccountType() {
-        return accountType;
-    }
+	public double getCurrrentBaalance() {
+		return currrentBaalance;
+	}
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
+	public void setCurrrentBaalance(double currrentBaalance) {
+		this.currrentBaalance = currrentBaalance;
+	}
+
+	public long getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(long accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public String getTransactoinStatus() {
+		return transactoinStatus;
+	}
+
+	public void setTransactoinStatus(String transactoinStatus) {
+		this.transactoinStatus = transactoinStatus;
+	}
+
+	
 }

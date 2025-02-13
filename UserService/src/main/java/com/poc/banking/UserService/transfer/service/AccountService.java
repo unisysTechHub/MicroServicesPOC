@@ -22,6 +22,7 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
     private KafkaTemplate<String,AccountTransactionModel> kafkaTemplate;
     
     @Transactional
@@ -51,13 +52,14 @@ public class AccountService {
       //  account.setType();
         account.setBillingDetails(billingDetails);
         account.setUsBankAccount(accountDto.getUsBankAccount());
-
-        return accountRepository.save(account);
+        Account accountSaved  = accountRepository.save(account);
+       sendMessage(account);
+        return accountSaved;
     }
     
     //send to kafka , it not real time use case
     public void  sendMessage(Account account) {
-    	CompletableFuture<SendResult<String, AccountTransactionModel>> future =	 kafkaTemplate.send("ACCOUNT_ADDED",buildAccountMainModel(account));
+    	CompletableFuture<SendResult<String, AccountTransactionModel>> future =	 kafkaTemplate.send("ACCOUNT_ADDED","ACCOUNT_ADDED_KWY",buildAccountMainModel(account));
     	future.thenApply(result -> {
             System.out.println("Message sent successfully! " +
                     "Topic: " + result.getRecordMetadata().topic() +

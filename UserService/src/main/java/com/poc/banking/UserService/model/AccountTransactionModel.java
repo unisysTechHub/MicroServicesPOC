@@ -1,7 +1,10 @@
 package com.poc.banking.UserService.model;
 
+import org.apache.kafka.common.serialization.Serializer;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.poc.banking.UserService.entity.UserDetails;
+import com.poc.banking.UserService.kafka.AccountTransactionSerializer;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -10,8 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-public class AccountTransactionModel {
-	
+public class AccountTransactionModel extends  AccountTransactionSerializer {
+	public AccountTransactionModel(){}
 	long accountId;
 	
 	UserDetails userDetails;
@@ -82,7 +85,7 @@ public class AccountTransactionModel {
 	public void setTransactoinStatus(String transactoinStatus) {
 		this.transactoinStatus = transactoinStatus;
 	}
-	
+
 	
 	
 }

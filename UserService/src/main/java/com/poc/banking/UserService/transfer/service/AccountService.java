@@ -59,7 +59,7 @@ public class AccountService {
     
     //send to kafka , it not real time use case
     public void  sendMessage(Account account) {
-    	CompletableFuture<SendResult<String, AccountTransactionModel>> future =	 kafkaTemplate.send("ACCOUNT_ADDED","ACCOUNT_ADDED_KWY",buildAccountMainModel(account));
+    	CompletableFuture<SendResult<String, AccountTransactionModel>> future =	 kafkaTemplate.send("ACCOUNT_ADDED","some_key",buildAccountMainModel(account));
     	future.thenApply(result -> {
             System.out.println("Message sent successfully! " +
                     "Topic: " + result.getRecordMetadata().topic() +

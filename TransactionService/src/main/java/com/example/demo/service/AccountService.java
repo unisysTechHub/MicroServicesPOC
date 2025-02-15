@@ -20,10 +20,11 @@ public class AccountService {
     // Save account to Redis
 	@KafkaListener(id = "accountAddedEventsListener",topics = "ACCOUNT_ADDED", groupId = "group_id")
     public void saveAccount(Account account) {
+		   log.info("ocess message: " + account.getAccountId() );
 		if (account != null) {
 		this.accountId = String.valueOf(account.getAccountId());
 		redisTemplate.opsForHash().put(ACCOUNTS,this.accountId, account);
-log.info("Acccount cached in Account redis in transaction serivce");
+         log.info("Acccount cached in Account redis in transaction serivce");
         
         log.info("Acccount cached " + getAccountById().getAccountId() );
 		}

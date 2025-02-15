@@ -31,8 +31,8 @@ public class AccountDeserializer implements Deserializer<Account> {
             return objectMapper.readValue(data, Account.class);
         } catch (Exception e) {
         	  log.debug("Error deserializing Account object" + e.getLocalizedMessage());
-        	  return null;
-            //throw new RuntimeException("Error deserializing Account object", e);
+        	  
+            throw new RuntimeException("Error deserializing Account object", e);
         }
     }
 

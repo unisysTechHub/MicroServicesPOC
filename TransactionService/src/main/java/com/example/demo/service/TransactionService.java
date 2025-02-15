@@ -23,7 +23,7 @@ public class TransactionService {
     public static String OPEN = "OPEN";
 	@Autowired
 	TransactionRepo transactionRepo;
-	
+	// instead of storing in database - send to kafka tipic - can be scheduled to poll it 
 	@Transactional
    public TransactionResponseModel prepare(TransactionModel transactionModel) {
 		log.info("Prepare method");

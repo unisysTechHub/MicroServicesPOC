@@ -1,5 +1,8 @@
 package com.poc.banking.UserService;
 
+import java.util.Optional;
+
+import com.banking.auth.entity.User;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.response.AccountList;
 import com.poc.banking.UserService.response.LoginResponse;
@@ -13,5 +16,7 @@ public interface UserManagementService {
     ValidateUserResponse isValidUser(UserDetails userDetails);
 	AccountList accountList(UserDetails userDetails);
 	public void consume(String message);
+	Optional<UserDetails> findByUserId(String username);
+	NewUser addNewUser(User user);
 
 }

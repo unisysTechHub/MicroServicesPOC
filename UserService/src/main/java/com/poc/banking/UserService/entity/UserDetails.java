@@ -8,6 +8,8 @@ import com.poc.banking.UserService.model.Beneficiary;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -23,6 +25,10 @@ public class UserDetails {
     public UserDetails(String userId) {
     	this.userId = userId;
     }
+	public UserDetails(String username, String password) {
+		this.userId = username;
+		this.password=password;
+	}
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue
@@ -30,6 +36,9 @@ public class UserDetails {
 	@Column(unique = true)
 	String userId;
 	String password;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "ROLE")
+    private Role role; // ADMIN, USER
 	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDetails")
 	List<Account> accountList;
@@ -108,6 +117,12 @@ public class UserDetails {
 	}
 	public void setBeneficiaryList(List<Beneficiaries> beneficiaryList) {
 		this.beneficiaryList = beneficiaryList;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 

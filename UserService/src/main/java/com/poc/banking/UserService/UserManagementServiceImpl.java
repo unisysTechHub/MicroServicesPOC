@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import com.banking.auth.entity.User;
 import com.poc.banking.UserService.entity.Account;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.kafka.ListenerInspector;
@@ -27,10 +30,44 @@ public class UserManagementServiceImpl implements  UserManagementService {
 	
 	@Autowired
 	UserRepository userRepo;
-
 	@Autowired
 	UserDetailsFluentQueryAPI queryAPI;
+	com.banking.auth.repo.UsersRepository usersRepo;
 	
+	@Autowired
+	  private PasswordEncoder passwordEncoder;
+
+	  public String encodePassword(String plainPassword) {
+	      return passwordEncoder.encode(plainPassword);
+	  }
+	  @Transactional
+		@Override
+		public NewUser addNewUser(User user) {
+			NewUser newUser = new  NewUser();
+
+			try {
+				System.out.println("@Rameseh " + user.getUserId());
+				//userDetails.setAccountList(null);
+				//addUser(new UserDetails(user.getUsername(),user.getPassword(),user.getUserRoles()));
+
+				  String encryptedPassword = passwordEncoder.encode(user.getPassword());
+				  user.setPassword(encryptedPassword);
+		            
+				  usersRepo.save(user);
+				newUser.setResponseCode("200");
+				newUser.setMessage("Signup sucessfull");
+				newUser.setUserId(user.getUsername());
+				// newUser.setJwt(jwtUtil.generateToken(userDetails.getUserId(), userDetails.getRole().name()));
+			}
+			catch(Exception e) {
+				newUser.setResponseCode("400");
+				newUser.setMessage("Signup unsucessfull" + e.getLocalizedMessage());
+				
+			}
+			
+			return newUser;
+			
+		}
 	@Transactional
 	@Override
 	public NewUser addUser(UserDetails userDetails) {
@@ -39,10 +76,14 @@ public class UserManagementServiceImpl implements  UserManagementService {
 		try {
 			System.out.println("@Rameseh " + userDetails.getUserId());
 			//userDetails.setAccountList(null);
+			  String encryptedPassword = passwordEncoder.encode(userDetails.getPassword());
+	            userDetails.setPassword(encryptedPassword);
+	            
 			userRepo.save(userDetails);
 			newUser.setResponseCode("200");
 			newUser.setMessage("Signup sucessfull");
-			newUser.setUserDetails(userDetails);
+			newUser.setUserId(userDetails.getUserId());
+			// newUser.setJwt(jwtUtil.generateToken(userDetails.getUserId(), userDetails.getRole().name()));
 
 		}
 		catch(Exception e) {
@@ -61,6 +102,7 @@ public class UserManagementServiceImpl implements  UserManagementService {
 		try {
 			System.out.println("@Rameseh " + userDetails.getUserId());
 			boolean validUser = queryAPI.isValidCredentials(userDetails);
+								UserDetails user = queryAPI.fetchUserDetilas(userDetails);
 			loginResponse.setUserId(userDetails.getUserId());
 			 if (validUser == true) {
 				 loginResponse.setResponseCode("200");
@@ -155,5 +197,11 @@ public class UserManagementServiceImpl implements  UserManagementService {
 	        System.out.println("@Ramesh Consumed message: " + message);
 	        // Process the message
 	    }
+
+	@Override
+	public Optional<UserDetails> findByUserId(String username) {
+		// TODO Auto-generated method stub
+		return userRepo.findByUserId(username);
+	}
 	
 }

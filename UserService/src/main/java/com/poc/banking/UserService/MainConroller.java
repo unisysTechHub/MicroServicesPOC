@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.banking.auth.entity.User;
 import com.poc.banking.UserService.entity.Account;
 import com.poc.banking.UserService.entity.Account.BillingDetails;
 import com.poc.banking.UserService.entity.UserDetails;
@@ -45,7 +46,14 @@ public class MainConroller {
 	
 	@Autowired
 	AdminClient adminClient;
-	
+	@RequestMapping(value = "/newuser", method = RequestMethod.POST,consumes = "application/json" )
+	@ResponseBody
+	NewUser addUser(@RequestBody User user) {
+		
+		System.out.println("@Rameseh controller " + user.getUserId());
+		return userManagementService.addNewUser(user);
+		
+	}
 	@RequestMapping(value = "/signup", method = RequestMethod.POST,consumes = "application/json" )
 	@ResponseBody
 	NewUser addUser(@RequestBody UserDetails user) {
@@ -86,7 +94,7 @@ public class MainConroller {
 	}
 	
 	@RequestMapping(value = "/addaccount", method = RequestMethod.POST , consumes = "application/json")
-	@ResponseBody
+   	@ResponseBody
 	Account addaccount(@RequestBody AccountDto  accountDto) {
 	         	UserDetails userDetails = new UserDetails();
 				userDetails.setUserId(accountDto.getUserId());

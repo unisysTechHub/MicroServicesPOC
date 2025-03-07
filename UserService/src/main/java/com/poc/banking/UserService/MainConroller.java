@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -43,7 +44,7 @@ public class MainConroller {
 	StripePaymentService stripePaymentService;
 	@Autowired
 	ListenerInspector listenerInspector;
-	
+
 	@Autowired
 	AdminClient adminClient;
 	@RequestMapping(value = "/newuser", method = RequestMethod.POST,consumes = "application/json" )
@@ -62,6 +63,11 @@ public class MainConroller {
 		return userManagementService.addUser(user);
 		
 	}
+	@GetMapping("/roles/{username}")
+    public ResponseEntity<List<Map<String, String>>> getUserRoles(@PathVariable String username) {
+        List<Map<String, String>> roles = userManagementService.findRolesByUserName(username);
+        return ResponseEntity.ok(roles);
+    }
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST , consumes = "application/json")
 	@ResponseBody

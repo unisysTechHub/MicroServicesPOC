@@ -1,5 +1,7 @@
 package com.poc.banking.UserService;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.banking.auth.entity.User;
@@ -18,5 +20,6 @@ public interface UserManagementService {
 	public void consume(String message);
 	Optional<UserDetails> findByUserId(String username);
 	NewUser addNewUser(User user);
+	List<Map<String, String>> findRolesByUserName(String userName);
 
 }

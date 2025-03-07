@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -13,7 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import com.banking.auth.entity.Role;
 import com.banking.auth.entity.User;
+import com.banking.auth.entity.UserRole;
 import com.poc.banking.UserService.entity.Account;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.kafka.ListenerInspector;
@@ -23,6 +26,12 @@ import com.poc.banking.UserService.response.LoginResponse;
 import com.poc.banking.UserService.response.NewUser;
 import com.poc.banking.UserService.response.ValidateUserResponse;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -33,7 +42,8 @@ public class UserManagementServiceImpl implements  UserManagementService {
 	@Autowired
 	UserDetailsFluentQueryAPI queryAPI;
 	com.banking.auth.repo.UsersRepository usersRepo;
-	
+	@PersistenceContext
+	EntityManager entityManager;
 	@Autowired
 	  private PasswordEncoder passwordEncoder;
 
@@ -95,7 +105,26 @@ public class UserManagementServiceImpl implements  UserManagementService {
 		return newUser;
 		
 	}
-
+    @Override
+	public List<Map<String,String>> findRolesByUserName(String userName){
+		CriteriaBuilder cb  = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Object[]> query = cb.createQuery(Object[].class);
+		Root<User> user = query.from(User.class);
+		Join<User,UserRole> userRoles = user.join("userRoles");
+		Join<UserRole,Role> role = userRoles.join("role");
+		query.multiselect(user.get("username"), role.get("roleName"))
+        .where(cb.equal(user.get("username"), userName));
+        List<Object[]> results = entityManager.createQuery(query).getResultList();
+        List<Map<String, String>> resultMapList = new ArrayList<>();
+        for (Object[] row : results) {
+            Map<String, String> resultMap = new HashMap<>();
+            resultMap.put("username", (String) row[0]);
+            resultMap.put("roleName", (String) row[1]);
+            resultMapList.add(resultMap);
+        }
+        return resultMapList;
+	}
+	
 	@Override
 	public LoginResponse isValidCredintails(UserDetails userDetails) {	
 		LoginResponse loginResponse = new LoginResponse();

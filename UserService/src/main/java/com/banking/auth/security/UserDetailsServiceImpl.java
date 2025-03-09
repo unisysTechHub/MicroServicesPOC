@@ -44,13 +44,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
-	public UsersRepository getUserRepository() {
+	public UsersRepository getUsersRepository() {
 		return usersRepository;
 	}
 
-	public void setUserRepository(UsersRepository userRepository) {
-		this.usersRepository = userRepository;
+	public void setUsersRepository(UsersRepository usersRepository) {
+		this.usersRepository = usersRepository;
 	}
+
+	
     
     
 }

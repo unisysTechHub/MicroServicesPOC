@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.banking.auth.entity.Role;
 import com.banking.auth.entity.User;
 import com.banking.auth.entity.UserRole;
+import com.banking.auth.repo.UsersRepository;
 import com.poc.banking.UserService.entity.Account;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.kafka.ListenerInspector;
@@ -41,7 +42,7 @@ public class UserManagementServiceImpl implements  UserManagementService {
 	UserRepository userRepo;
 	@Autowired
 	UserDetailsFluentQueryAPI queryAPI;
-	com.banking.auth.repo.UsersRepository usersRepo;
+	UsersRepository usersRepo;
 	@PersistenceContext
 	EntityManager entityManager;
 	@Autowired

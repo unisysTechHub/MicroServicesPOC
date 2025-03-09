@@ -48,7 +48,6 @@ public class MainControllerMockTest {
 	        user.setPassword("Test User");
 
 	        NewUser newUser = new  NewUser();
-	        newUser.setUserDetails(user);
 
 
 	        try {

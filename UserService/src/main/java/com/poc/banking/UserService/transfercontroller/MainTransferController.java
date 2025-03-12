@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.poc.banking.UserService.UserManagementService;
 import com.poc.banking.UserService.entity.Beneficiaries;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.model.Beneficiary;
@@ -32,7 +33,9 @@ public class MainTransferController {
 	@Autowired
 	UserRepositoryCustom userRepositoryCustom;
 	
-	
+	@Autowired
+	UserManagementService userManagementService;
+
 	
 	 private final Log log = LogFactory.getLog(getClass()); 
 
@@ -59,6 +62,9 @@ public class MainTransferController {
 	@ResponseBody
 	TransactionResponseModel initiateTransfer(@RequestBody Transaction transaction) {
 		//validation pending
+		
+		UserDetails userDetails	=userManagementService.isValidUser(transaction.getUserDetails()).getUserDetails();
+		transaction.setUserDetails(userDetails);
 		log.debug("User service " + transaction.getTransferType() +  "receiver account " + transaction.getReceiverAccount());
          System.out.println("@Ramesh mUser service " + transaction.getBeneficiary().getId() +  "receiver account " + transaction.getReceiverAccount());
 		RestTemplate resttemplate  = new RestTemplate();

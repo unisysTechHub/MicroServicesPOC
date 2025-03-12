@@ -7,19 +7,25 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.demo.config.AppProperties;
 import com.example.demo.service.model.Transaction;
+@Service
 public class AccountService implements Participant {
 	 private final Log log = LogFactory.getLog(getClass()); 
 
 	public static String PREPARED = "PREPARED";
     public static String FAILED = "FAILED";
     public static String OPEN = "OPEN";
-	public static String  urlPrepare = "http://localhost:8083/api/account/prepare";
-	public static String  urlCommit = "http://localhost:8083/api/account/commit";
-	public static String  urlRollback = "http://localhost:8083/api/account/rollback";
+	public static String  urlPrepare = "/api/account/prepare";
+	public static String  urlCommit = "/api/account/commit";
+	public static String  urlRollback = "/api/account/rollback";
+	
+	@Autowired
+	AppProperties appProperties;
 	private final Map<String, Double> accounts = new HashMap<>();
     private final Map<String, Double> reservedFunds = new HashMap<>();
     Transaction transaction;
@@ -30,10 +36,11 @@ public class AccountService implements Participant {
     @Override
     public boolean prepare(Transaction transaction) {
     		log.info("account service prepred method");
+    		String accounService =this.appProperties.getAccountServiceUrl();
     	this.transaction = transaction;
     	URI uri = null;
 		try {
-			uri = new URI(urlPrepare);
+			uri = new URI(accounService+urlPrepare);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,10 +53,12 @@ public class AccountService implements Participant {
 
     @Override
     public void commit() {
+    	log.info("account service prepred method");
+    	String accounService =this.appProperties.getAccountServiceUrl();
     	log.info("account service commit method");
     	URI uri = null;
 		try {
-			uri = new URI(urlCommit);
+			uri = new URI(accounService+urlCommit);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,9 +71,10 @@ public class AccountService implements Participant {
     @Override
     public void rollback() {
     	log.info("account service rollback method");
-    	URI uri = null;
+    	log.info("account service prepred method");
+    	String accounService = this.appProperties.getAccountServiceUrl();    	URI uri = null;
 		try {
-			uri = new URI(urlRollback);
+			uri = new URI(accounService+urlRollback);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

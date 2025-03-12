@@ -51,6 +51,11 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/user/newuser").permitAll()
                 .requestMatchers("/api/user/**").permitAll()
+                .requestMatchers("/api/transfer/**").permitAll()
+
+                
+                
+
             )
             .authenticationProvider(daoAuthenticationProvider())
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

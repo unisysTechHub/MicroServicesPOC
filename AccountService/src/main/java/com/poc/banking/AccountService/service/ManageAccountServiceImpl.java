@@ -76,6 +76,7 @@ public class ManageAccountServiceImpl implements ManageAccountService{
 		 
 		 }
 		Account account  = getAccount(transaction.getSenderAccount(),transaction.getUserDetails().getUserId());
+		System.out.println("ransac anount" + transaction.getAmount());
 		try {
 		if(isEligibleForPreparation(account,transaction.getAmount())) {
 		

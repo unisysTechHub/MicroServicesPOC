@@ -21,6 +21,8 @@ public class MainController {
 	@PostMapping(value = "/starttransfer", consumes = "application/json")
 	public TransactionResponseModel startTransfer(@RequestBody Transaction transaction) {
 		log.info("Co orditnore service - startTransfer method ");
+		log.info("Co orditnore service - Transfer ye  " + transaction.getTransferType());
+
 		log.debug("Co ordinator service " + transaction.getUserDetails().getUserId() +  "Benfeficiar id " + transaction.getBeneficiary().getId());
 	return	coordinatorService.startTransaction(transaction);
 			

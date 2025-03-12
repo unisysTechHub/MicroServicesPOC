@@ -49,7 +49,7 @@ public class Transaction {
     
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name="USER_ID", nullable=false, updatable=false)
+    @JoinColumn(name = "USER_ID", nullable = false, updatable = false)
     private UserDetails userDetails;
 
     @Enumerated(EnumType.STRING)

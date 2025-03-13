@@ -52,6 +52,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/user/newuser").permitAll()
                 .requestMatchers("/api/user/**").permitAll()
                 .requestMatchers("/api/transfer/**").permitAll()
+                .requestMatchers("/**").permitAll()
+                
 
                 
                 

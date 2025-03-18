@@ -84,7 +84,7 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
             beneficiaries.setUserDetails(userDetails);
             beneficiariesRepository.save(beneficiaries);
 
-            BeneficiaryResponseModel beneficiariesResponse = buildDomesticResponse(beneficiary);
+            BeneficiaryResponseModel beneficiariesResponse = buildDomesticResponse(beneficiaries);
             
             return beneficiariesResponse;
 
@@ -130,9 +130,9 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
     BeneficiaryModel convert(Beneficiaries beneficiaries) {
     	return BeneficiaryMapper.INSTANCE.toBeneficiary(beneficiaries);
     }
-    BeneficiaryResponseModel buildDomesticResponse(Beneficiary beneficiary){
+    BeneficiaryResponseModel buildDomesticResponse(Beneficiaries beneficiary){
     	BeneficiaryResponseModel response = new BeneficiaryResponseModel.Builder()
-    	        .userId(beneficiary.getUserId())
+    	        .userId(beneficiary.getUserDetails().getUserId())
     	        .accountNumber(beneficiary.getAccountNumber())
     	        .bankName(beneficiary.getBankName())
     	        .beneficiaryName(beneficiary.getBeneficiaryName())

@@ -61,9 +61,7 @@ public class MainTransferController {
 	
 	@RequestMapping(value= "/initiatetransfer", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	TransactionResponseModel initiateTransfer(@RequestBody Trans
-			
-			action transaction) {
+	TransactionResponseModel initiateTransfer(@RequestBody Transaction transaction) {
 		//validation pending
 		
 		UserDetails userDetails	=userManagementService.isValidUser(transaction.getUserDetails()).getUserDetails();
@@ -71,8 +69,8 @@ public class MainTransferController {
 		log.debug("User service " + transaction.getTransferType() +  "receiver account " + transaction.getReceiverAccount());
          System.out.println("@Ramesh mUser service " + transaction.getBeneficiary().getId() +  "receiver account " + transaction.getReceiverAccount());
 		RestTemplate resttemplate  = new RestTemplate();
-		TransactionResponseModel responsemodel =	resttemplate.postForObject(URL.coordinatorService,transaction,TransactionResponseModel.class );
-		System.out.println("start transactin" + responsemodel.getTransaction().getTransactionId());		
+		//TransactionResponseModel responsemodel =	resttemplate.postForObject(URL.coordinatorService,transaction,TransactionResponseModel.class );
+		//System.out.println("start transactin" + responsemodel.getTransaction().getTransactionId());		
 		return resttemplate.postForObject(URL.coordinatorService,transaction,TransactionResponseModel.class );
 	}
 	

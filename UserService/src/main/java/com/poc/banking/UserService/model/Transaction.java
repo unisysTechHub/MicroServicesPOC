@@ -12,7 +12,7 @@ import com.poc.banking.UserService.enums.TransactionType;
 import com.poc.banking.UserService.enums.TransferType;
 
 public class Transaction {
-	
+	public Transaction() {}
 	public Transaction(String userId, BigDecimal amount) {
 	this.userDetails = new UserDetails(userId);
 	this.amount = amount;

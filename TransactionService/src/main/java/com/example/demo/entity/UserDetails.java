@@ -32,7 +32,7 @@ public class UserDetails {
 //	@JsonManagedReference
 //	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDetails")
 //	List<Transaction> transactionList;
-//	
+	
 	public int getId() {
 		return id;
 	}

@@ -36,7 +36,7 @@ public class AccountService implements Participant {
     @Override
     public boolean prepare(Transaction transaction) {
     		log.info("account service prepred method");
-    		String accounService =this.appProperties.getAccountServiceUrl();
+    		String accounService =this.appProperties.getACCOUNT_SERVICE_URL();
     	this.transaction = transaction;
     	URI uri = null;
 		try {
@@ -54,7 +54,7 @@ public class AccountService implements Participant {
     @Override
     public void commit() {
     	log.info("account service prepred method");
-    	String accounService =this.appProperties.getAccountServiceUrl();
+    	String accounService =this.appProperties.getACCOUNT_SERVICE_URL();
     	log.info("account service commit method");
     	URI uri = null;
 		try {
@@ -72,7 +72,7 @@ public class AccountService implements Participant {
     public void rollback() {
     	log.info("account service rollback method");
     	log.info("account service prepred method");
-    	String accounService = this.appProperties.getAccountServiceUrl();    	URI uri = null;
+    	String accounService = this.appProperties.getACCOUNT_SERVICE_URL();    	URI uri = null;
 		try {
 			uri = new URI(accounService+urlRollback);
 		} catch (URISyntaxException e) {

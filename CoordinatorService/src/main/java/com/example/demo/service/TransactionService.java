@@ -6,6 +6,10 @@ import java.net.URISyntaxException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -30,12 +34,14 @@ public class TransactionService implements Participant{
 	@Autowired
 	RestTemplate restTemplate;
 	TransactionResponseModel transactionResponseModel;
+	
+	@Autowired
 	AppProperties appProperties;
 	@Override
     public boolean prepare(Transaction transaction) {
-		log.info("transaction service prepared method");
+		log.info("transaction service prepared method 4");
 		this.transaction = transaction;
-    	String transacionService = appProperties.getTransactionServiceUrl();
+    	String transacionService = appProperties.getTRANSACTION_SERVICE_URL();
 		String urlprepare = transacionService + urlPrepare;
 		TransactionPrepareResponse response = null;
 		 try {
@@ -78,7 +84,7 @@ public class TransactionService implements Participant{
     @Override
     public void commit() {
 		log.info("transaction service commit method");
-    	String transacionService = appProperties.getTransactionServiceUrl();
+    	String transacionService = appProperties.getTRANSACTION_SERVICE_URL();
 
     	URI uri = null;
 		try {
@@ -94,20 +100,26 @@ public class TransactionService implements Participant{
 
     @Override
     public void rollback() {
-		log.info("transaction service rollback method");
-    	String transacionService = appProperties.getTransactionServiceUrl();
+		log.info("transaction service rollback method 1");
+		String transacionService = appProperties.getTRANSACTION_SERVICE_URL();
 
-    	URI uri = null;
+		URI uri = null;
 		try {
-			uri = new URI(transacionService+urlRollback);
+		    uri = new URI(transacionService + urlRollback);
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
-		RestTemplate restTemplate = new RestTemplate();
-		String response = restTemplate.postForObject(uri, this.transaction, String.class);
-		log.info("transaction service rollback response " + response);
 
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<Transaction> entity = new HttpEntity<>(this.transaction, headers);
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		ResponseEntity<String> response = restTemplate.postForEntity(uri, entity, String.class);
+
+		log.info("transaction service rollback response: " + response.getBody());
     }
 
    

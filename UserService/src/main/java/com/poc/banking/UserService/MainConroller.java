@@ -32,6 +32,7 @@ import com.poc.banking.UserService.stripe.PaymentMethodAPI;
 
 @RestController
 @RequestMapping(value = "/api/user")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:4200"})
 public class MainConroller {
 	private static final String KAFKA_BROKER = "localhost:9092"; 
 	@Autowired

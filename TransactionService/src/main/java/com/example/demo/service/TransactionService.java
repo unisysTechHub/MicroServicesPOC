@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +9,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.TransactionResponseModel;
+import com.example.demo.entity.Beneficiaries;
 import com.example.demo.entity.Transaction;
 import com.example.demo.model.TransactionModel;
 import com.example.demo.model.TransactionStatus;
 import com.example.demo.repo.TransactionRepo;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -23,12 +27,17 @@ public class TransactionService {
     public static String OPEN = "OPEN";
 	@Autowired
 	TransactionRepo transactionRepo;
+	@Autowired
+	EntityManager entityManager;
+
 	// instead of storing in database - send to kafka tipic - can be scheduled to poll it 
 	@Transactional
    public TransactionResponseModel prepare(TransactionModel transactionModel) {
 		log.info("Prepare method");
 	   
 	   Transaction transaction = TransactionMapper.toEntity(transactionModel);
+	   Beneficiaries beneficiary = this.validateBeneiciary(transaction.getReceiverAccount());
+	   transaction.getBeneficiary().setId(beneficiary.getId());
 	   try {
 		   transaction.setStatus(TransactionStatus.PREPARED);
 		   logTransactionDetails(transaction);
@@ -104,6 +113,16 @@ public class TransactionService {
 	   
    }
    
+	private Beneficiaries validateBeneiciary(long accountNumber ) {
+		String hql = "select * from beneficiaries where "
+				+ "account_number = :accountNumber";
+		 List<Beneficiaries> beneficiaries =entityManager.createNativeQuery(hql,Beneficiaries.class)
+		    .setParameter("accountNumber", accountNumber)
+		    .getResultList();
+		 
+		 return beneficiaries.get(0);
+				
+	}
  }
    
    

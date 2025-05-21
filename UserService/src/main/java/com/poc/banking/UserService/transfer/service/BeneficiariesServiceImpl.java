@@ -1,8 +1,13 @@
 package com.poc.banking.UserService.transfer.service;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +18,7 @@ import com.poc.banking.UserService.entity.Beneficiaries;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.enums.TransactionConstants;
 import com.poc.banking.UserService.model.Beneficiary;
+import com.poc.banking.UserService.model.Transaction;
 import com.poc.banking.UserService.repo.BeneficiariesRepository;
 import com.poc.banking.UserService.repo.UserRepository;
 import com.poc.banking.UserService.response.BaseResponse;
@@ -156,5 +162,46 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
     	
     	return response;
     }
+    
+    public String reverString(String string) {
+    	  String reversed =  string.chars().mapToObj (c -> (char)c).collect(Collectors.collectingAndThen(Collectors.toList(), 
+    			  list -> {
+    		    		return list.stream().map(String::valueOf).collect(Collectors.joining()); 
+    	  }));
+    			  
+    	return reversed;
+    }
+    public void moreStreamUsecases() {
+    	   List<Transaction> transactions = Arrays.asList(
+    	            new Transaction("user1", new BigDecimal(100.00)),
+    	            new Transaction("user2", new BigDecimal(200.00)),
+    	            new Transaction("user1", new BigDecimal(300.00)),
+    	            new Transaction("user3", new BigDecimal(400.00)),
+    	            new Transaction("user2", new BigDecimal(500.00))
+    	        );
+    	   Map<String, BigDecimal> totalByUser = transactions.stream()
+    			    .collect(
+    			        HashMap::new,
+    			        (map, txn) -> map.merge(
+    			            txn.getUserDetails().getUserId(),
+    			            txn.getAmount(),
+    			            BigDecimal::add
+    			        ),
+    			        (map1, map2) -> map2.forEach(
+    			            (key, value) -> map1.merge(key, value, BigDecimal::add)
+    			        )
+    			    );
+    	   totalByUser.forEach((key,value) -> {System.out.println(key + " ");  System.out.print(value); });
+    	   Map<String, BigDecimal> totalByUser1 = transactions.parallelStream()
+    			    .collect(
+    			        ConcurrentHashMap::new,
+    			        (map, txn) -> map.merge(txn.getUserDetails().getUserId(), txn.getAmount(), BigDecimal::add),
+    			        (map1, map2) -> map2.forEach(
+    			            (key, value) -> map1.merge(key, value, BigDecimal::add)
+    			        )
+    			    );
+
+
+       }
 	
 }

@@ -11,10 +11,12 @@ import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.enums.TransactionType;
 import com.poc.banking.UserService.enums.TransferType;
 
-
-
-
 public class Transaction {
+	
+	public Transaction(String userId, BigDecimal amount) {
+	this.userDetails = new UserDetails(userId);
+	this.amount = amount;
+	}
 private  String transactionId; 
 private Long senderAccount;
 
@@ -144,11 +146,5 @@ public UserDetails getUserDetails() {
 public void setUserDetails(UserDetails userDetails) {
 	this.userDetails = userDetails;
 }
-
-
-	
-	
-	
-	
 
 }

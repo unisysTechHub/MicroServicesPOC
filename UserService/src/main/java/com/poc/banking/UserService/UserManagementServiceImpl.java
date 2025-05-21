@@ -1,12 +1,17 @@
 package com.poc.banking.UserService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -192,7 +197,7 @@ public class UserManagementServiceImpl implements  UserManagementService {
 		ArrayList<Integer> arrayList = new ArrayList<Integer>(10);
 		LinkedHashSet<Integer> set = new LinkedHashSet<Integer>();
 		HashMap<Integer,String> map = new HashMap<Integer, String>();
-		
+			
 		for(int i = 0;i< 4;i++){
 			Integer integer = 10;
 			System.out.print(integer.intValue());
@@ -233,5 +238,29 @@ public class UserManagementServiceImpl implements  UserManagementService {
 		// TODO Auto-generated method stub
 		return userRepo.findByUserId(username);
 	}
+	
+	public String  reverseString(String string) {
+		char[] chars = string.toCharArray();
+		StringBuffer reverseString = new StringBuffer();
+		 int n = chars.length;
+		for(int i = n-1 ; i > 0; i--   ) {
+		      reverseString.append(chars[i]);
+		}
+	
+		return reverseString.toString();
+	}
+	
+  public int printFabanocciNumber(int[] numbers) {
+	  int max = 0;
+	  Stream.iterate(new long[] {0,1} , f -> new long[] {f[1],f[0]+f[1]} )
+	  .limit(10).
+	  map(f -> f[0]).forEach(System.out::println);
+	int value =  Arrays.stream(numbers).reduce(0, (a,b) -> a+b);
+	  
+	  return 0;
+  }	
+	
+	
+	
 	
 }

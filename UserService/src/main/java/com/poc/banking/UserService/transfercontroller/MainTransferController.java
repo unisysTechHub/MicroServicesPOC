@@ -3,6 +3,7 @@ package com.poc.banking.UserService.transfercontroller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +26,7 @@ import com.poc.banking.UserService.transfer.service.BeneficiariesService;
 
 @RestController
 @RequestMapping(value = "/api/transfer")
-
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:4200"})
 public class MainTransferController {
 
 	@Autowired
@@ -60,7 +61,9 @@ public class MainTransferController {
 	
 	@RequestMapping(value= "/initiatetransfer", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	TransactionResponseModel initiateTransfer(@RequestBody Transaction transaction) {
+	TransactionResponseModel initiateTransfer(@RequestBody Trans
+			
+			action transaction) {
 		//validation pending
 		
 		UserDetails userDetails	=userManagementService.isValidUser(transaction.getUserDetails()).getUserDetails();

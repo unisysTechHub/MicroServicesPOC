@@ -2,6 +2,8 @@ package com.poc.banking.UserService.model;
 
 import org.springframework.stereotype.Component;
 
+import com.poc.banking.UserService.transfer.validation.group.Domestic;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 
@@ -11,7 +13,7 @@ public class Beneficiary {
 	@NotNull(message = "Userid must not be null")
 	private String userId;
 	//(External account number)
-	@NotNull(message = "Account number must not be null")
+	@NotNull(message = "Account number must not be null",groups = {Domestic.class})
 	private Long	AccountNumber ;
 	@NotNull(message = "Bankname must not be null")
 	private	String	BankName;

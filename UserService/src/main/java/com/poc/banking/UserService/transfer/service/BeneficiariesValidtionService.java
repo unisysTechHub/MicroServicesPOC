@@ -22,6 +22,9 @@ public class BeneficiariesValidtionService {
 		log.debug(getClass().getSimpleName() + " validateBeneficiary");
 		 ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		    Validator validator = factory.getValidator();
+		   // if groups are provding - it only validate fields with groups in Beneficiary model.
+		    // rest of the fields not with groups will not be validate - @NotNull validation is not being validated
+		    // either all field with @NotNull wihtout groups Or  all feilds with groups works
 		    Set<ConstraintViolation<Beneficiary>> violations = validator.validate(beneficiary,groups);
 
 		    if (!violations.isEmpty()) {
@@ -29,9 +32,8 @@ public class BeneficiariesValidtionService {
 		        for (ConstraintViolation<Beneficiary> violation : violations) {
 		            errorMessage.append(violation.getMessage()).append("; ");
 		        }
-		        throw new IllegalArgumentException(errorMessage.toString());
-		    }
-		    
+		         throw new BeneficiaryPropertiesNottFoundException(errorMessage.toString());
+		    } 
 		    log.debug("Beneficiary validatin  successfull");
 		    	    
 	}

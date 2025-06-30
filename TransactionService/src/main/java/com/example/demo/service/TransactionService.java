@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.TransactionResponseModel;
@@ -100,6 +101,7 @@ public class TransactionService {
 	//   TransactionMapper.updateTransactionStatus(transaction, TransactionStatus.FAILED);
 	   try {
 		   String transactionId = transactionModel.getTransactionId();
+		   
 		   transactionRepo.updateTransactionStatus(Long.parseLong(transactionId), TransactionStatus.FAILED);
 		//   transactionRepo.save(transaction);
 		   log.debug("updated failed status");
@@ -116,6 +118,7 @@ public class TransactionService {
 	private Beneficiaries validateBeneiciary(long accountNumber ) {
 		String hql = "select * from beneficiaries where "
 				+ "account_number = :accountNumber";
+		
 		 List<Beneficiaries> beneficiaries =entityManager.createNativeQuery(hql,Beneficiaries.class)
 		    .setParameter("accountNumber", accountNumber)
 		    .getResultList();
@@ -123,6 +126,12 @@ public class TransactionService {
 		 return beneficiaries.get(0);
 				
 	}
+	private void getTransactionHistory() {
+		
+	    
+	}
+ 
+	
  }
    
    

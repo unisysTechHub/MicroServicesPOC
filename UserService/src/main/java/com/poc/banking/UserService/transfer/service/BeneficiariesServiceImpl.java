@@ -44,16 +44,25 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
 
     public BeneficiaryResponseModel addBeneficiary( Beneficiary beneficiary) {
     	System.out.println("@Ramesh" + beneficiary.getBankName());
+    	UserDetails userDetails = userDetailsqueryAPI.isValidUser(new UserDetails("user123"));
+        
+        // Create a new Beneficiary
+        
+        Beneficiaries beneficiaries = null;
+
     	try {
     		switch (beneficiary.getTransferType()) {
             case TransactionConstants.TransactionType.INTRA:
             case TransactionConstants.TransactionType.INTERNAL:
             case TransactionConstants.TransactionType.DOMESTIC_ACH:
             case TransactionConstants.TransactionType.DOMESTIC_WIRE:
+            	validationService.validateBeneficiary(beneficiary,Domestic.class); 
+                beneficiaries = validationService.addDomesticBeneficiary(beneficiary);
+
+                break;
             case TransactionConstants.TransactionType.INTERNATIONAL:
                 
-            	validationService.validateBeneficiary(beneficiary,Domestic.class);    
-                break;
+            	
             default:
                 throw new IllegalArgumentException("Unsupported transfer type: " + beneficiary.getTransferType());
     		}
@@ -63,30 +72,17 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
     		
     		
     				return buildErrorResponse(e.getMessage(),"450",beneficiary); 
-    	}
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return  new BeneficiaryResponseModel(e.getMessage(),"450"); 
+		}
     	
     	// Fetch the UserDetails by ID
     	
-		UserDetails userDetails = userDetailsqueryAPI.isValidUser(new UserDetails("user123"));
-                
-        // Create a new Beneficiary
-        
-        Beneficiaries beneficiaries = null;
-
+	
         try {
-            switch (beneficiary.getTransferType()) {
-                case TransactionConstants.TransactionType.INTRA:
-                case TransactionConstants.TransactionType.INTERNAL:
-                case TransactionConstants.TransactionType.DOMESTIC_ACH:
-                case TransactionConstants.TransactionType.DOMESTIC_WIRE:
-                case TransactionConstants.TransactionType.INTERNATIONAL:
-                    beneficiaries = validationService.addDomesticBeneficiary(beneficiary);
-                    
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unsupported transfer type: " + beneficiary.getTransferType());
-            }
-
+           
             beneficiaries.setUserDetails(userDetails);
             beneficiariesRepository.save(beneficiaries);
 
@@ -171,6 +167,10 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
     			  
     	return reversed;
     }
+    public static String reverse(String str) {
+	    if (str.isEmpty()) return str;
+	    return reverse(str.substring(1)) + str.charAt(0);
+	}
     public void moreStreamUsecases() {
     	   List<Transaction> transactions = Arrays.asList(
     	            new Transaction("user1", new BigDecimal(100.00)),
@@ -179,6 +179,9 @@ public class BeneficiariesServiceImpl implements BeneficiariesService {
     	            new Transaction("user3", new BigDecimal(400.00)),
     	            new Transaction("user2", new BigDecimal(500.00))
     	        );
+    	   
+    	 
+
     	   Map<String, BigDecimal> totalByUser = transactions.stream()
     			    .collect(
     			        HashMap::new,

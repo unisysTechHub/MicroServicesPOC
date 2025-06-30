@@ -86,6 +86,4 @@ public class AccountTransactionModel extends  AccountTransactionSerializer {
 		this.transactoinStatus = transactoinStatus;
 	}
 
-	
-	
 }

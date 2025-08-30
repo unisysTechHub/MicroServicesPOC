@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.poc.banking.UserService.UserManagementService;
+import com.poc.banking.UserService.config.AppProperties;
 import com.poc.banking.UserService.entity.Beneficiaries;
 import com.poc.banking.UserService.entity.UserDetails;
 import com.poc.banking.UserService.model.Beneficiary;
@@ -36,6 +37,9 @@ public class MainTransferController {
 	
 	@Autowired
 	UserManagementService userManagementService;
+	
+	@Autowired
+	URL URL;
 
 	
 	 private final Log log = LogFactory.getLog(getClass()); 
@@ -71,7 +75,7 @@ public class MainTransferController {
 		RestTemplate resttemplate  = new RestTemplate();
 		//TransactionResponseModel responsemodel =	resttemplate.postForObject(URL.coordinatorService,transaction,TransactionResponseModel.class );
 		//System.out.println("start transactin" + responsemodel.getTransaction().getTransactionId());		
-		return resttemplate.postForObject(URL.coordinatorService,transaction,TransactionResponseModel.class );
+		return resttemplate.postForObject(URL.getCoordinatorService(),transaction,TransactionResponseModel.class );
 	}
 	
 }

@@ -15,10 +15,13 @@ public class TransferService {
 	@Autowired
 	UserManagementService userManagementService; 
 	
+	@Autowired
+	URL URL;
+	
 	public TransactionResponseModel startTrasnaction(Transaction transaction) {
 		//validate authenticate user
 		// validate // transaction data againt userdetails, account, beneficiary table
 		RestTemplate resttemplate  = new RestTemplate();
-		return resttemplate.postForObject(URL.coordinatorService,transaction,TransactionResponseModel.class );
+		return resttemplate.postForObject(URL.getCoordinatorService(),transaction,TransactionResponseModel.class );
 	}
 }

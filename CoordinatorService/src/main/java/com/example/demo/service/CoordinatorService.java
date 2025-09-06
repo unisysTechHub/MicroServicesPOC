@@ -5,9 +5,9 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.config.AppProperties;
 import com.example.demo.model.TransactionResponseModel;
 import com.example.demo.service.model.Transaction;
 
@@ -15,7 +15,10 @@ import com.example.demo.service.model.Transaction;
 public class CoordinatorService  {
 	 private final Log log = LogFactory.getLog(getClass()); 
      TransactionResponseModel transactionResponseModel;
-	@Autowired
+     @Autowired
+ 	 AppProperties appProperties;
+	
+     @Autowired
 	private  List<Participant> services; // Participating services
 
     public TransactionResponseModel startTransaction(Transaction transaction) {
@@ -36,7 +39,11 @@ public class CoordinatorService  {
                 service.commit();
                 if (service instanceof TransactionService) {
                     System.out.println("The service is an instance of Transaction.");
+                    ((TransactionService) service).setAppProperties(appProperties);
                     this.transactionResponseModel = ((TransactionService) service).transactionResponseModel;
+                }
+                if (service instanceof AccountService) {
+                	((AccountService) service).setAppProperties(appProperties);
                 }
             }
             log.info(" account and transacion commit success");

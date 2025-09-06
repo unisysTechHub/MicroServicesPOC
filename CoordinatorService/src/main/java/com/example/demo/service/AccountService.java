@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.config.AppProperties;
 import com.example.demo.service.model.Transaction;
-@Service
 public class AccountService implements Participant {
 	 private final Log log = LogFactory.getLog(getClass()); 
 
@@ -24,12 +23,20 @@ public class AccountService implements Participant {
 	public static String  urlCommit = "/api/account/commit";
 	public static String  urlRollback = "/api/account/rollback";
 	
-	@Autowired
 	AppProperties appProperties;
 	private final Map<String, Double> accounts = new HashMap<>();
     private final Map<String, Double> reservedFunds = new HashMap<>();
     Transaction transaction;
-    public AccountService() {
+    
+    public AppProperties getAppProperties() {
+		return appProperties;
+	}
+
+	public void setAppProperties(AppProperties appProperties) {
+		this.appProperties = appProperties;
+	}
+
+	public AccountService() {
         accounts.put("acc1", 1000.0); // Example account with initial balance
     }
 

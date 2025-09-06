@@ -13,14 +13,18 @@ import java.util.List;
 @Configuration
 public class ParticipantConfig {
  
-	@Autowired
-	TransactionService transactionService;
 	
-	@Autowired
-	AccountService accountService;
+	TransactionService transactionService() {
+		return new TransactionService();
+	};
+	
+	
+	AccountService accountService() {
+		return new AccountService();
+	};
     @Bean
     public List<Participant> participantServices() {
     	
-        return List.of(transactionService, accountService);
+        return List.of(transactionService(), accountService());
     }
 }

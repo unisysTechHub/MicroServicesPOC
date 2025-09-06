@@ -19,7 +19,6 @@ import com.example.demo.config.AppProperties;
 import com.example.demo.model.TransactionPrepareResponse;
 import com.example.demo.model.TransactionResponseModel;
 import com.example.demo.service.model.Transaction;
-@Service
 public class TransactionService implements Participant{
 	 private final Log log = LogFactory.getLog(getClass()); 
 
@@ -31,12 +30,18 @@ public class TransactionService implements Participant{
 	public static String  urlRollback = "/api/rollback";
 	Transaction transaction;
 	String transactionId;
-	@Autowired
-	RestTemplate restTemplate;
-	TransactionResponseModel transactionResponseModel;
+	TransactionResponseModel transactionResponseModel = new TransactionResponseModel();
 	
-	@Autowired
 	AppProperties appProperties;
+	
+	public AppProperties getAppProperties() {
+		return appProperties;
+	}
+
+	public void setAppProperties(AppProperties appProperties) {
+		this.appProperties = appProperties;
+	}
+
 	@Override
     public boolean prepare(Transaction transaction) {
 		log.info("transaction service prepared method 4");
@@ -44,6 +49,7 @@ public class TransactionService implements Participant{
     	String transacionService = appProperties.getTRANSACTION_SERVICE_URL();
 		String urlprepare = transacionService + urlPrepare;
 		TransactionPrepareResponse response = null;
+		RestTemplate restTemplate = new RestTemplate();
 		 try {
 		 response = restTemplate.postForObject(urlprepare, transaction, TransactionPrepareResponse.class);
 		 } catch (HttpClientErrorException e) {

@@ -45,6 +45,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             System.out.println("Mapping role: " + roleName);
             return new SimpleGrantedAuthority("ROLE_" + roleName);
         })
-        .collect(Collectors.toList());
+        .collect(Collectors.toList())
+        
+        ;
     }
 }
